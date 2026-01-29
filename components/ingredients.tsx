@@ -3,6 +3,7 @@
 import Fraction from "fraction.js";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
+import { useMemo } from "react";
 import {
 	ingredients,
 	unitDefinitions,
@@ -20,6 +21,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import { useRecipeUnitsStore } from "@/stores/recipe-units";
 import { useServingsStore } from "@/stores/servings";
@@ -41,6 +43,14 @@ export const Ingredients = ({
 		updateRecipeServing(slug, srvngs);
 	const internalServings = recipeServings[slug] ?? servings;
 	const recipeIngredients = ingredients[slug];
+	const prefersReducedMotion = usePrefersReducedMotion();
+
+	// Build Map for O(1) unit lookups (js-index-maps)
+	const unitMap = useMemo(
+		() => new Map(unitDefinitions.map((u) => [u.value, u])),
+		[],
+	);
+
 	if (!recipeIngredients) return null;
 
 	const updateServingAmount = (amount: number) => {
@@ -48,6 +58,16 @@ export const Ingredients = ({
 			handleUpdateRecipeServing(1);
 		} else {
 			handleUpdateRecipeServing(amount);
+		}
+	};
+
+	const handleKeyDown = (
+		e: React.KeyboardEvent<HTMLButtonElement>,
+		action: () => void,
+	) => {
+		if (e.key === "Enter" || e.key === " ") {
+			e.preventDefault();
+			action();
 		}
 	};
 
@@ -75,10 +95,15 @@ export const Ingredients = ({
 									<button
 										className="btn btn-outline hover:z-10 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-5"
 										onClick={() => updateServingAmount(internalServings - 1)}
+										onKeyDown={(e) =>
+											handleKeyDown(e, () =>
+												updateServingAmount(internalServings - 1),
+											)
+										}
 										disabled={internalServings <= 1}
-										title="Decrease servings"
+										aria-label="Decrease servings"
 									>
-										<Minus className="size-4" />
+										<Minus className="size-4" aria-hidden="true" />
 										<span className="sr-only">Decrease servings</span>
 									</button>
 								</TooltipTrigger>
@@ -91,10 +116,13 @@ export const Ingredients = ({
 									<button
 										className="btn btn-outline-warning hover:z-10 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-5"
 										onClick={() => updateServingAmount(servings)}
-										title="Reset to original servings"
+										onKeyDown={(e) =>
+											handleKeyDown(e, () => updateServingAmount(servings))
+										}
 										disabled={internalServings === servings}
+										aria-label="Reset to original servings"
 									>
-										<RotateCcw className="size-4" />
+										<RotateCcw className="size-4" aria-hidden="true" />
 										<span className="sr-only">Reset to original servings</span>
 									</button>
 								</TooltipTrigger>
@@ -107,9 +135,14 @@ export const Ingredients = ({
 									<button
 										className="btn btn-outline hover:z-10 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-5"
 										onClick={() => updateServingAmount(internalServings + 1)}
-										title="Increase servings"
+										onKeyDown={(e) =>
+											handleKeyDown(e, () =>
+												updateServingAmount(internalServings + 1),
+											)
+										}
+										aria-label="Increase servings"
 									>
-										<Plus className="size-4" />
+										<Plus className="size-4" aria-hidden="true" />
 										<span className="sr-only">Increase servings</span>
 									</button>
 								</TooltipTrigger>
@@ -124,8 +157,11 @@ export const Ingredients = ({
 									<button
 										className="btn btn-outline-secondary shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-10"
 										onClick={() => updateUnits("decimal")}
+										onKeyDown={(e) =>
+											handleKeyDown(e, () => updateUnits("decimal"))
+										}
 										disabled={units === "decimal"}
-										title="Decimal"
+										aria-label="Decimal"
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -138,6 +174,7 @@ export const Ingredients = ({
 											strokeLinecap="round"
 											strokeLinejoin="round"
 											className="size-4"
+											aria-hidden="true"
 										>
 											<path stroke="none" d="M0 0h24v24H0z" fill="none" />
 											<path d="M17 8a2 2 0 0 1 2 2v4a2 2 0 1 1 -4 0v-4a2 2 0 0 1 2 -2" />
@@ -155,8 +192,11 @@ export const Ingredients = ({
 									<button
 										className="btn btn-outline-secondary shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-10"
 										onClick={() => updateUnits("fraction")}
+										onKeyDown={(e) =>
+											handleKeyDown(e, () => updateUnits("fraction"))
+										}
 										disabled={units === "fraction"}
-										title="Fraction"
+										aria-label="Fraction"
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -164,6 +204,7 @@ export const Ingredients = ({
 											height="24"
 											viewBox="0 0 24 24"
 											className="size-4"
+											aria-hidden="true"
 										>
 											<title>Fraction-one-half SVG Icon</title>
 											<path
@@ -183,7 +224,7 @@ export const Ingredients = ({
 			</div>
 			<ul className="space-y-2">
 				{recipeIngredients.map(({ name, quantity, unit, alternatives }) => {
-					const unitDetails = unitDefinitions.find((u) => u.value === unit);
+					const unitDetails = unitMap.get(unit);
 					const adjustedQuantity =
 						Math.round(
 							Number(quantity * (internalServings / servings)) * 1000,
@@ -197,7 +238,7 @@ export const Ingredients = ({
 						<li key={name} className="lowercase list-none text-lg relative">
 							<span
 								className={cn(
-									"font-semibold transition-all font-mono text-yellow-800 dark:text-yellow-400",
+									"font-semibold transition-colors font-mono text-yellow-800 dark:text-yellow-400",
 									internalServings === servings &&
 										"text-violet-800 dark:text-violet-400",
 								)}
@@ -205,10 +246,12 @@ export const Ingredients = ({
 								<TextMorph>{displayQuantity}</TextMorph>
 							</span>{" "}
 							<motion.span
-								layout="position"
-								layoutId={`unit-${name}`}
+								layout={prefersReducedMotion ? false : "position"}
+								layoutId={prefersReducedMotion ? undefined : `unit-${name}`}
 								className="inline-block"
-								transition={morphTransition}
+								transition={
+									prefersReducedMotion ? { duration: 0 } : morphTransition
+								}
 							>
 								{adjustedQuantity > 1 ? unitDetails?.plural : unitDetails?.name}{" "}
 								{name}{" "}
@@ -259,7 +302,13 @@ export const ReactiveIngredient = ({
 	const { units } = useRecipeUnitsStore();
 	const internalServings = recipeServings[slug] ?? servings;
 	const ingredient = ingredients[slug][ingredientIndex];
-	const unitDetails = unitDefinitions.find((u) => u.value === ingredient.unit);
+
+	// Build Map for O(1) unit lookups (js-index-maps)
+	const unitMap = useMemo(
+		() => new Map(unitDefinitions.map((u) => [u.value, u])),
+		[],
+	);
+	const unitDetails = unitMap.get(ingredient.unit);
 	const adjustedQuantity =
 		((quantity ?? ingredient.quantity) / ingredient.quantity) *
 		ingredient.quantity *
@@ -268,6 +317,7 @@ export const ReactiveIngredient = ({
 	const fraction = baseQuantity.toFraction(true);
 	const decimal = baseQuantity.round(3).toString();
 	const displayQuantity = units === "decimal" ? decimal : fraction;
+	const prefersReducedMotion = usePrefersReducedMotion();
 
 	return (
 		<span
@@ -278,9 +328,9 @@ export const ReactiveIngredient = ({
 		>
 			<TextMorph>{displayQuantity}</TextMorph>{" "}
 			<motion.span
-				layout="position"
+				layout={prefersReducedMotion ? false : "position"}
 				className="inline-block"
-				transition={morphTransition}
+				transition={prefersReducedMotion ? { duration: 0 } : morphTransition}
 			>
 				{adjustedQuantity > 1 ? unitDetails?.plural : unitDetails?.name}{" "}
 				{!omitName && ingredient.name}

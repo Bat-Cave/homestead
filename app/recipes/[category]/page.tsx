@@ -14,6 +14,13 @@ export const metadata = {
 	},
 };
 
+// Generate static params at build time for all category pages
+export async function generateStaticParams() {
+	return categories.map((category) => ({
+		category: category.slug,
+	}));
+}
+
 export default async function RecipeCategoriesPage({
 	params,
 }: {
@@ -34,7 +41,7 @@ export default async function RecipeCategoriesPage({
 				href={`/recipes`}
 				className="flex items-center gap-2 hover:underline"
 			>
-				<ArrowLeft />
+				<ArrowLeft aria-hidden="true" />
 				<span>
 					Back to{" "}
 					<span className="font-semibold text-violet-800 dark:text-violet-400">
@@ -58,7 +65,7 @@ export default async function RecipeCategoriesPage({
 				</Badge>
 			</h1>
 			<ul>
-				{recipes
+				{[...recipes]
 					.sort((a, b) => a.metadata.title.localeCompare(b.metadata.title))
 					.map(({ slug, metadata }) => (
 						<li key={slug} className="flex flex-col">

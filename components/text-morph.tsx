@@ -2,6 +2,7 @@
 import { AnimatePresence, motion, Transition, Variants } from "motion/react";
 import { useId, useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 export type TextMorphProps = {
 	children: string;
@@ -34,6 +35,7 @@ export function TextMorph({
 	transition,
 }: TextMorphProps) {
 	const uniqueId = useId();
+	const prefersReducedMotion = usePrefersReducedMotion();
 
 	const characters = useMemo(() => {
 		const charCounts: Record<string, number> = {};
@@ -48,6 +50,14 @@ export function TextMorph({
 			};
 		});
 	}, [children, uniqueId]);
+
+	if (prefersReducedMotion) {
+		return (
+			<Component className={cn(className)} aria-label={children} style={style}>
+				{children}
+			</Component>
+		);
+	}
 
 	return (
 		<Component className={cn(className)} aria-label={children} style={style}>

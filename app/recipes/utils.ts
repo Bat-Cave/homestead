@@ -1,3 +1,4 @@
+import { cache } from "react";
 import fs from "fs";
 import path from "path";
 import { CategorySlug } from "./[category]/categories";
@@ -94,12 +95,15 @@ function getMDXData(dir: string, category?: CategorySlug) {
 	});
 }
 
-export function getRecipes(category?: CategorySlug) {
+// Use React.cache() for per-request deduplication (server-cache-react)
+const getRecipesUncached = (category?: CategorySlug) => {
 	return getMDXData(
 		path.join(process.cwd(), "app", "recipes", "content"),
 		category,
 	);
-}
+};
+
+export const getRecipes = cache(getRecipesUncached);
 
 export function formatDate(date?: string, includeRelative = false) {
 	const currentDate = new Date();

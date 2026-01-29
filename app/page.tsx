@@ -34,15 +34,15 @@ export default function Home() {
 					Dear Family and Friends,
 				</h1>
 				<p>
-					the inspiration for this recipe booko came after 30 years of trying,
+					the inspiration for this recipe book came after 30 years of trying,
 					testing, failing, and mastering. the recipes included are truly the
 					favorites of our family. many are requested as birthday dinners or
-					mass production for large croeds. what makes these recipes so magical
+					mass production for large crowds. what makes these recipes so magical
 					is their ability to bring loved-ones together to enjoy great food and
 					even better company.
 				</p>
 				<p>
-					one of my favorite scriptire stories is of Jesus feeding the thousands
+					one of my favorite scripture stories is of Jesus feeding the thousands
 					with five loaves and few fishes. he had compassion for these people
 					who had been with him for three days with nothing to eat. He would not
 					send them away hungry, so he performed a miracle which allowed them
