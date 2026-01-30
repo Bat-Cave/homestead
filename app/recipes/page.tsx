@@ -20,7 +20,7 @@ export default function RecipesPage() {
 			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 mb-8">
 				Recipe Categories
 			</h1>
-			<ul>
+			<ul className="space-y-4">
 				{[...categories]
 					.sort((a, b) => a.name.localeCompare(b.name))
 					.map((category) => {

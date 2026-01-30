@@ -1,6 +1,6 @@
-import { cache } from "react";
 import fs from "fs";
 import path from "path";
+import { cache } from "react";
 import { CategorySlug } from "./[category]/categories";
 
 interface Metadata {
@@ -149,6 +149,6 @@ export const categoryBackgrounds: Record<CategorySlug, string> = {
 	"main-dishes": "custom-bg-5",
 	"veggie-dishes": "custom-bg-6",
 	appetizers: "custom-bg-7",
-	"drinks-sauces": "custom-bg-8",
+	"drinks-sauces": "custom-bg-2",
 	"soups-salads": "custom-bg-9",
 };

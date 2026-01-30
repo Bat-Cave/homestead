@@ -64,7 +64,7 @@ export default async function RecipeCategoriesPage({
 					{recipes.length} recipe{recipes.length === 1 ? "" : "s"}
 				</Badge>
 			</h1>
-			<ul>
+			<ul className="space-y-4">
 				{[...recipes]
 					.sort((a, b) => a.metadata.title.localeCompare(b.metadata.title))
 					.map(({ slug, metadata }) => (

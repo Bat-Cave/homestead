@@ -14,6 +14,15 @@ export const ingredients: Record<string, Ingredient[]> = {
 		{ name: "instant yeast", quantity: 3, unit: "tbsp" },
 		{ name: "white flour", quantity: 8, unit: "cup" },
 	],
+	salsa: [
+		{ name: "diced tomatoes", quantity: 28, unit: "oz" },
+		{ name: "jalepeño pepper (remove seeds)", quantity: 1, unit: "whole" },
+		{ name: "dried onion", quantity: 1, unit: "tbsp" },
+		{ name: "salt", quantity: 1, unit: "tsp" },
+		{ name: "cushed red pepper", quantity: 1, unit: "tsp" },
+		{ name: "oregano", quantity: 0.5, unit: "tsp" },
+		{ name: "granulated garlic", quantity: 0.5, unit: "tsp" },
+	],
 };
 
 export type Ingredient = {
