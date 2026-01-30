@@ -25,7 +25,7 @@ export default function RecipesPage() {
 					.sort((a, b) => a.name.localeCompare(b.name))
 					.map((category) => {
 						const recipeCount = recipes.filter(
-							(recipe) => recipe.metadata.category === category.slug,
+							(recipe) => recipe.category === category.slug,
 						).length;
 						if (recipeCount === 0) return null;
 						return (
@@ -46,9 +46,9 @@ export default function RecipesPage() {
 									<span className="group-hover:underline">
 										{category.name}{" "}
 									</span>
-									<Badge className="text-sm bg-violet-800 dark:bg-violet-400">
-										{recipeCount} recipe{recipeCount === 1 ? "" : "s"}
-									</Badge>
+									<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2">
+										{`${recipeCount} recipe${recipeCount === 1 ? "" : "s"}`}
+									</span>
 								</Link>
 							</li>
 						);

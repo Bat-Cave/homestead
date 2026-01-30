@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { Recipe } from "../content/types";
 import { categoryBackgrounds, getRecipes } from "../utils";
 import { CategorySlug, categories } from "./categories";
 
@@ -60,36 +61,59 @@ export default async function RecipeCategoriesPage({
 					/>
 				</span>
 				{validCategory.name}
-				<Badge className="text-sm bg-violet-800 dark:bg-violet-400 ml-4">
-					{recipes.length} recipe{recipes.length === 1 ? "" : "s"}
-				</Badge>
+				<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2 tracking-normal">
+					{`${recipes.length} recipe${recipes.length === 1 ? "" : "s"}`}
+				</span>
 			</h1>
 			<ul className="space-y-4">
-				{[...recipes]
-					.sort((a, b) => a.metadata.title.localeCompare(b.metadata.title))
-					.map(({ slug, metadata }) => (
-						<li key={slug} className="flex flex-col">
-							<Link href={`/recipes/${category}/${slug}`} className="group">
-								<span className="font-semibold text-lg group-hover:underline">
-									{metadata.title}
-								</span>
-								<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2">
-									{metadata.servings}{" "}
-									{
-										metadata?.servingUnits?.[
-											metadata?.servings && metadata?.servings > 1 ? 1 : 0
-										]
-									}
-									{"  •  "}
-									{metadata.prepTime} min prep, {metadata.cookTime} min cook
-									{"  •  "}
-									<span className="italic font-semibold">
-										{metadata.acknowledgments?.join(", ")}
-									</span>
-								</span>
-							</Link>
-						</li>
-					))}
+				{Object.entries(
+					[...recipes].reduce(
+						(acc, recipe) => {
+							const key = recipe.title.charAt(0).toLowerCase();
+							if (!acc[key]) {
+								acc[key] = [];
+							}
+							acc[key].push(recipe);
+							return acc;
+						},
+						{} as Record<string, Recipe[]>,
+					),
+				).map(([key, recipes]) => (
+					<li key={key} className="flex flex-col">
+						<p className="uppercase font-semibold text-sm tracking-wider">
+							{key}
+						</p>
+						<ul>
+							{recipes.map((recipe) => (
+								<li key={recipe.slug} className="flex flex-col">
+									<Link
+										key={recipe.slug}
+										href={`/recipes/${category}/${recipe.slug}`}
+										className="group"
+									>
+										<span className="font-semibold text-lg group-hover:underline">
+											{recipe.title}
+										</span>
+										<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2">
+											{recipe.servings}{" "}
+											{recipe.servingUnits[recipe.servings > 1 ? 1 : 0]}
+											{"  •  "}
+											{recipe.prepTime != null && `${recipe.prepTime} min prep`}
+											{recipe.prepTime != null &&
+												recipe.cookTime != null &&
+												", "}
+											{recipe.cookTime != null && `${recipe.cookTime} min cook`}
+											{"  •  "}
+											<span className="italic font-semibold">
+												{recipe.acknowledgments?.join(", ")}
+											</span>
+										</span>
+									</Link>
+								</li>
+							))}
+						</ul>
+					</li>
+				))}
 			</ul>
 		</section>
 	);

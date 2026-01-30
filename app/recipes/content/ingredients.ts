@@ -1,79 +1,15 @@
-// The keys of the ingredients object should be the same as the slug of the recipe. The slug of the recipe is the name of the mdx file without the extension.
+import { allRecipes } from "./recipes";
+import type { Ingredient, UnitDefinition } from "./types";
 
-export const ingredients: Record<string, Ingredient[]> = {
-	"basic-bread": [
-		{ name: "really warm water", quantity: 6, unit: "cup" },
-		{
-			name: "canola oil",
-			quantity: 0.6667,
-			unit: "cup",
-			alternatives: ["olive oil"],
-		},
-		{ name: "honey", quantity: 0.6667, unit: "cup" },
-		{ name: "salt", quantity: 2, unit: "tbsp" },
-		{ name: "instant yeast", quantity: 3, unit: "tbsp" },
-		{ name: "white flour", quantity: 8, unit: "cup" },
-	],
-	salsa: [
-		{ name: "diced tomatoes", quantity: 28, unit: "oz" },
-		{ name: "jalepeño pepper (remove seeds)", quantity: 1, unit: "whole" },
-		{ name: "dried onion", quantity: 1, unit: "tbsp" },
-		{ name: "salt", quantity: 1, unit: "tsp" },
-		{ name: "cushed red pepper", quantity: 1, unit: "tsp" },
-		{ name: "oregano", quantity: 0.5, unit: "tsp" },
-		{ name: "granulated garlic", quantity: 0.5, unit: "tsp" },
-	],
-};
-
-export type Ingredient = {
-	name: string;
-	quantity: number;
-	unit: IngredientUnit;
-	alternatives?: string[];
-};
-
-export type IngredientUnit =
-	| "cup"
-	| "tbsp"
-	| "tsp"
-	| "fl oz"
-	| "oz"
-	| "lb"
-	| "g"
-	| "kg"
-	| "ml"
-	| "l"
-	| "pt"
-	| "qt"
-	| "gal"
-	| "pinch"
-	| "dash"
-	| "can"
-	| "pkg"
-	| "box"
-	| "bunch"
-	| "clove"
-	| "head"
-	| "stalk"
-	| "slice"
-	| "piece"
-	| "whole"
-	| "half"
-	| "quarter"
-	| "doz"
-	| "handful"
-	| "sprig"
-	| "leaf"
-	| "strip"
-	| "unit"
-	| "to taste"
-	| "as needed";
-
-export interface UnitDefinition {
-	name: string;
-	value: IngredientUnit;
-	plural: string;
-}
+// Slug -> ingredients lookup for components (Ingredients, ReactiveIngredient).
+// Built from colocated recipe.ingredients so the single source of truth stays in each recipe file.
+export const ingredients: Record<string, Ingredient[]> = Object.fromEntries(
+	allRecipes
+		.filter((r): r is typeof r & { ingredients: Ingredient[] } =>
+			Boolean(r.ingredients?.length),
+		)
+		.map((r) => [r.slug, r.ingredients]),
+);
 
 export const unitDefinitions: UnitDefinition[] = [
 	{ name: "Cup", value: "cup", plural: "Cups" },

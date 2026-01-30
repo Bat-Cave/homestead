@@ -1,22 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-	Ingredients,
-	ReactiveIngredient,
-	ReactiveServings,
-} from "@/components/ingredients";
-import { CustomMDX } from "@/components/mdx";
+import { Ingredients } from "@/components/ingredients";
 import { RecipeListItem } from "@/components/recipe-list-item";
-import { RecipeTemperature } from "@/components/recipe-temperature";
-import { RecipeTime } from "@/components/recipe-time";
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import Video from "@/components/video";
-import { cn } from "@/lib/utils";
 import { getRecipes } from "../../utils";
 import { CategorySlug, categories } from "../categories";
 
@@ -32,7 +18,7 @@ export const metadata = {
 export async function generateStaticParams() {
 	const allRecipes = getRecipes();
 	return allRecipes.map((recipe) => ({
-		category: recipe.metadata.category,
+		category: recipe.category,
 		slug: recipe.slug,
 	}));
 }
@@ -69,34 +55,19 @@ export default async function RecipePage({
 				</span>
 			</Link>
 			<article className="prose">
-				<CustomMDX
-					source={recipe.content}
-					components={{
-						Ingredients,
-						ReactiveIngredient,
-						ReactiveServings,
-						Video,
-						Collapsible,
-						CollapsibleTrigger,
-						CollapsibleContent,
-						RecipeTime,
-						RecipeTemperature,
-						ol: ({ children, ...props }) => (
-							<ol className="list-decimal list-inside pl-10!" {...props}>
-								{children.map((child: any, index: number) => {
-									if (child.type === "li") {
-										return (
-											<RecipeListItem key={child.key + index} {...child.props}>
-												{child.props.children}
-											</RecipeListItem>
-										);
-									}
-									return child;
-								})}
-							</ol>
-						),
-					}}
+				<h1>{recipe.title}</h1>
+				<h2>Ingredients</h2>
+				<Ingredients
+					slug={recipe.slug}
+					servings={recipe.servings}
+					servingUnits={recipe.servingUnits}
 				/>
+				<h2>Directions</h2>
+				<ol className="list-decimal list-inside pl-10!">
+					{recipe.steps.map((step, i) => (
+						<RecipeListItem key={i}>{step}</RecipeListItem>
+					))}
+				</ol>
 			</article>
 		</main>
 	);
