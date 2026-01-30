@@ -50,6 +50,7 @@ export const recipe: Recipe = {
 				ingredientIndex={5}
 				servings={servings}
 				quantity={2}
+				ingredients={ingredients}
 			/>{" "}
 			and spin breifly.
 		</>,
@@ -70,6 +71,7 @@ export const recipe: Recipe = {
 				servings={servings}
 				quantity={2}
 				omitName
+				ingredients={ingredients}
 			/>{" "}
 			at a time.
 		</>,

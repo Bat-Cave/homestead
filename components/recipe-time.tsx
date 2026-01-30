@@ -30,10 +30,10 @@ export const RecipeTime = ({
 	| {
 			time: number;
 			step: { number: string; name: string };
-			range: undefined;
+			range?: undefined;
 	  }
 	| {
-			time: undefined;
+			time?: undefined;
 			step: { number: string; name: string };
 			range: [number, number];
 	  }) => {
@@ -101,15 +101,15 @@ export const RecipeTime = ({
 			<DrawerTrigger asChild>
 				<button
 					className={cn(
-						"font-semibold text-fuchsia-800 dark:text-fuchsia-300 after:absolute relative after:inset-x-0 after:-inset-y-px after:bg-fuchsia-300/50 dark:after:bg-fuchsia-800/50 after:rounded-md after:border after:border-fuchsia-400/70 dark:after:border-fuchsia-800/70 after:z-[-1] px-2 inline-flex items-center gap-2 active:scale-95 cursor-pointer transition-all duration-200 leading-none py-0.5 tabular-nums",
+						"font-semibold after:absolute relative after:inset-x-0 after:-inset-y-px after:bg-fuchsia-300/50 dark:after:bg-fuchsia-800/50 after:rounded-md after:border after:border-fuchsia-400/70 dark:after:border-fuchsia-800/70 after:z-[-1] px-2 inline-flex items-center gap-2 active:scale-95 cursor-pointer transition-all duration-200 leading-none py-0.5 tabular-nums bg-linear-to-b from-fuchsia-600 dark:from-fuchsia-100 to-fuchsia-900 dark:to-fuchsia-400 bg-clip-text text-transparent",
 						completed &&
-							"text-green-800 dark:text-green-300 after:bg-green-300/50 dark:after:bg-green-800/50 after:border-green-400/70 dark:after:border-green-800/70",
+							"bg-linear-to-b from-green-600 dark:from-green-100 to-green-900 dark:to-green-400 bg-clip-text text-transparent after:bg-green-300/50 dark:after:bg-green-800/50 after:border-green-400/70 dark:after:border-green-800/70",
 					)}
 				>
 					{completed ? (
 						<>
 							<span>Completed</span>
-							<Check className="size-3.5 -mt-0.5" />
+							<Check className="size-3.5 -mt-0.5 text-green-800 dark:text-green-400" />
 						</>
 					) : status === "stopped" ? (
 						<>
@@ -120,7 +120,7 @@ export const RecipeTime = ({
 							) : (
 								getTimeString(internalTime)
 							)}{" "}
-							<Timer className="size-3.5 -mt-0.5" />
+							<Timer className="size-3.5 -mt-0.5 text-fuchsia-800 dark:text-fuchsia-400" />
 						</>
 					) : (
 						<>
@@ -150,7 +150,7 @@ export const RecipeTime = ({
 							>
 								{formatSeconds(Math.floor(timeLeft / 1000))}
 							</TextMorph>{" "}
-							<Timer className="size-3.5 animate-pulse -mt-0.5" />
+							<Timer className="size-3.5 animate-pulse -mt-0.5 text-fuchsia-800 dark:text-fuchsia-400" />
 						</>
 					)}
 				</button>

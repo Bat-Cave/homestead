@@ -1,8 +1,8 @@
 "use client";
 import { AnimatePresence, motion, Transition, Variants } from "motion/react";
 import { useId, useMemo } from "react";
-import { cn } from "@/lib/utils";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
+import { cn } from "@/lib/utils";
 
 export type TextMorphProps = {
 	children: string;
@@ -11,6 +11,7 @@ export type TextMorphProps = {
 	style?: React.CSSProperties;
 	variants?: Variants;
 	transition?: Transition;
+	characterClassName?: string;
 };
 
 const defaultVariants: Variants = {
@@ -33,6 +34,7 @@ export function TextMorph({
 	style,
 	variants,
 	transition,
+	characterClassName,
 }: TextMorphProps) {
 	const uniqueId = useId();
 	const prefersReducedMotion = usePrefersReducedMotion();
@@ -66,7 +68,7 @@ export function TextMorph({
 					<motion.span
 						key={character.id}
 						layoutId={character.id}
-						className="inline-block"
+						className={cn("inline-block", characterClassName)}
 						aria-hidden="true"
 						initial="initial"
 						animate="animate"

@@ -1,15 +1,4 @@
-import { allRecipes } from "./recipes";
-import type { Ingredient, UnitDefinition } from "./types";
-
-// Slug -> ingredients lookup for components (Ingredients, ReactiveIngredient).
-// Built from colocated recipe.ingredients so the single source of truth stays in each recipe file.
-export const ingredients: Record<string, Ingredient[]> = Object.fromEntries(
-	allRecipes
-		.filter((r): r is typeof r & { ingredients: Ingredient[] } =>
-			Boolean(r.ingredients?.length),
-		)
-		.map((r) => [r.slug, r.ingredients]),
-);
+import type { UnitDefinition } from "./types";
 
 export const unitDefinitions: UnitDefinition[] = [
 	{ name: "Cup", value: "cup", plural: "Cups" },

@@ -43,7 +43,8 @@ export type IngredientUnit =
 	| "strip"
 	| "unit"
 	| "to taste"
-	| "as needed";
+	| "as needed"
+	| "";
 
 export interface UnitDefinition {
 	name: string;
@@ -58,7 +59,7 @@ export interface Recipe {
 	category: CategorySlug;
 	servings: number;
 	servingUnits: [string, string];
-	ingredients?: Ingredient[];
+	ingredients: Ingredient[];
 	revisedFrom?: string;
 	acknowledgments?: string[];
 	prepTime?: string | number;

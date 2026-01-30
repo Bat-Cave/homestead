@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Ingredients } from "@/components/ingredients";
 import { RecipeListItem } from "@/components/recipe-list-item";
-import { getRecipes } from "../../utils";
+import { getRecipeBySlug, getRecipes } from "../../utils";
 import { CategorySlug, categories } from "../categories";
 
 export const metadata = {
@@ -29,7 +29,7 @@ export default async function RecipePage({
 	params: Promise<{ category: CategorySlug; slug: string }>;
 }) {
 	const { category, slug } = await params;
-	const recipe = getRecipes(category).find((r) => r.slug === slug);
+	const recipe = getRecipeBySlug(slug);
 
 	const validCategory = categories.find((c) => c.slug === category);
 	if (!validCategory) {
@@ -61,6 +61,7 @@ export default async function RecipePage({
 					slug={recipe.slug}
 					servings={recipe.servings}
 					servingUnits={recipe.servingUnits}
+					ingredients={recipe.ingredients}
 				/>
 				<h2>Directions</h2>
 				<ol className="list-decimal list-inside pl-10!">

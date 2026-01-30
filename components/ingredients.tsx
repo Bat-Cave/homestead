@@ -4,10 +4,8 @@ import Fraction from "fraction.js";
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { motion } from "motion/react";
 import { useMemo } from "react";
-import {
-	ingredients,
-	unitDefinitions,
-} from "@/app/recipes/content/ingredients";
+import { unitDefinitions } from "@/app/recipes/content/ingredients";
+import { Ingredient } from "@/app/recipes/content/types";
 import {
 	Popover,
 	PopoverContent,
@@ -32,17 +30,19 @@ export const Ingredients = ({
 	slug,
 	servings = 1,
 	servingUnits = ["serving", "servings"],
+	ingredients,
 }: {
 	slug: string;
 	servings: number;
 	servingUnits?: [string, string];
+	ingredients: Ingredient[];
 }) => {
 	const { recipeServings, updateRecipeServing } = useServingsStore();
 	const { units, updateUnits } = useRecipeUnitsStore();
 	const handleUpdateRecipeServing = (srvngs: number) =>
 		updateRecipeServing(slug, srvngs);
 	const internalServings = recipeServings[slug] ?? servings;
-	const recipeIngredients = ingredients[slug];
+	const recipeIngredients = ingredients;
 	const prefersReducedMotion = usePrefersReducedMotion();
 
 	// Build Map for O(1) unit lookups (js-index-maps)
@@ -77,19 +77,74 @@ export const Ingredients = ({
 				<div className="flex items-center justify-between flex-wrap gap-2 mb-4 w-full">
 					<span>
 						Makes{" "}
-						<span
+						<motion.span
+							layout={prefersReducedMotion ? false : "position"}
+							layoutId={
+								prefersReducedMotion ? undefined : `servings-${slug}-number`
+							}
+							transition={
+								prefersReducedMotion ? { duration: 0 } : morphTransition
+							}
 							className={cn(
-								"font-semibold font-mono text-yellow-800 dark:text-yellow-400 transition-colors",
+								"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent text-lg",
 								internalServings === servings &&
-									"text-violet-800 dark:text-violet-400",
+									"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
 							)}
 						>
 							{internalServings}
-						</span>{" "}
-						{internalServings > 1 ? servingUnits[1] : servingUnits[0]}
+						</motion.span>{" "}
+						<motion.span
+							layout={prefersReducedMotion ? false : "position"}
+							layoutId={
+								prefersReducedMotion ? undefined : `servings-${slug}-unit`
+							}
+							transition={
+								prefersReducedMotion ? { duration: 0 } : morphTransition
+							}
+							className="inline-block"
+						>
+							{internalServings > 1 ? servingUnits[1] : servingUnits[0]}
+						</motion.span>
 					</span>
 					<span className="flex items-center flex-wrap gap-2">
 						<ButtonGroup>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<button
+										className="btn btn-outline hover:z-10 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-5"
+										onClick={() =>
+											updateServingAmount(Math.floor(servings / 2))
+										}
+										onKeyDown={(e) =>
+											handleKeyDown(e, () =>
+												updateServingAmount(Math.floor(servings / 2)),
+											)
+										}
+										aria-label="Decrease servings by half the original amount"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											className="size-4"
+											aria-hidden="true"
+										>
+											<title>Fraction-one-half SVG Icon</title>
+											<path
+												fill="currentColor"
+												d="m5.79 21.61l-1.58-1.22l14-18l1.58 1.22zM4 2v2h2v8h2V2zm11 10v2h4v2h-2c-1.1 0-2 .9-2 2v4h6v-2h-4v-2h2c1.11 0 2-.89 2-2v-2a2 2 0 0 0-2-2z"
+											/>
+										</svg>
+										<span className="sr-only">
+											Decrease servings by half the original amount
+										</span>
+									</button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Decrease servings by half the original amount</p>
+								</TooltipContent>
+							</Tooltip>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<button
@@ -148,6 +203,59 @@ export const Ingredients = ({
 								</TooltipTrigger>
 								<TooltipContent>
 									<p>Increase servings</p>
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<button
+										className="btn btn-outline hover:z-10 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-5"
+										onClick={() =>
+											updateServingAmount(Math.floor(servings * 2))
+										}
+										onKeyDown={(e) =>
+											handleKeyDown(e, () =>
+												updateServingAmount(Math.floor(servings * 2)),
+											)
+										}
+										aria-label="Increase servings by double the original amount"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											fill="none"
+											className="size-4"
+										>
+											<path
+												d="M4 16L10 10"
+												stroke="currentColor"
+												strokeWidth="2"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											/>
+											<path
+												d="M10 16L4 10"
+												stroke="currentColor"
+												strokeWidth="2"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											/>
+											<path
+												d="M21 18H14C14 15.4281 14.7735 14.5708 16.625 13.7136C18.4765 12.8563 21 11.7144 21 9.43054C21 8.62126 20.7025 7.83598 20.153 7.21873C19.5931 6.59818 18.8323 6.18519 17.9985 6.04908C17.1646 5.91296 16.3083 6.062 15.5733 6.47117C14.8383 6.88096 14.2817 7.52393 14 8.28863"
+												stroke="currentColor"
+												strokeWidth="2"
+												strokeLinecap="round"
+												strokeLinejoin="round"
+											/>
+										</svg>
+										<span className="sr-only">
+											Increase servings by double the original amount
+										</span>
+									</button>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Increase servings by double the original amount</p>
 								</TooltipContent>
 							</Tooltip>
 						</ButtonGroup>
@@ -236,14 +344,16 @@ export const Ingredients = ({
 
 					return (
 						<li key={name} className="lowercase list-none text-lg relative">
-							<span
-								className={cn(
-									"font-semibold transition-colors font-mono text-yellow-800 dark:text-yellow-400",
-									internalServings === servings &&
-										"text-violet-800 dark:text-violet-400",
-								)}
-							>
-								<TextMorph>{displayQuantity}</TextMorph>
+							<span>
+								<TextMorph
+									characterClassName={cn(
+										"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
+										internalServings === servings &&
+											"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+									)}
+								>
+									{displayQuantity}
+								</TextMorph>
 							</span>{" "}
 							<motion.span
 								layout={prefersReducedMotion ? false : "position"}
@@ -291,17 +401,19 @@ export const ReactiveIngredient = ({
 	servings,
 	quantity,
 	omitName,
+	ingredients,
 }: {
 	slug: string;
 	ingredientIndex: number;
 	servings: number;
 	quantity?: number;
 	omitName?: boolean;
+	ingredients: Ingredient[];
 }) => {
 	const { recipeServings } = useServingsStore();
 	const { units } = useRecipeUnitsStore();
 	const internalServings = recipeServings[slug] ?? servings;
-	const ingredient = ingredients[slug][ingredientIndex];
+	const ingredient = ingredients[ingredientIndex];
 
 	// Build Map for O(1) unit lookups (js-index-maps)
 	const unitMap = useMemo(
@@ -320,13 +432,16 @@ export const ReactiveIngredient = ({
 	const prefersReducedMotion = usePrefersReducedMotion();
 
 	return (
-		<span
-			className={cn(
-				"lowercase font-semibold text-yellow-800 dark:text-yellow-400 transition-colors",
-				internalServings === servings && "text-violet-800 dark:text-violet-400",
-			)}
-		>
-			<TextMorph>{displayQuantity}</TextMorph>{" "}
+		<span className="lowercase">
+			<TextMorph
+				characterClassName={cn(
+					"lowercase font-semibold bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
+					internalServings === servings &&
+						"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+				)}
+			>
+				{displayQuantity}
+			</TextMorph>{" "}
 			<motion.span
 				layout={prefersReducedMotion ? false : "position"}
 				className="inline-block"
@@ -356,8 +471,9 @@ export const ReactiveServings = ({
 	return (
 		<span
 			className={cn(
-				"lowercase font-semibold text-yellow-800 dark:text-yellow-400 transition-colors",
-				internalServings === servings && "text-violet-800 dark:text-violet-400",
+				"lowercase font-semibold bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
+				internalServings === servings &&
+					"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
 			)}
 		>
 			{internalServings}{" "}

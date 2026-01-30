@@ -4,14 +4,17 @@ import { allRecipes } from "./content/recipes";
 import type { Recipe } from "./content/types";
 
 function getRecipesUncached(category?: CategorySlug): Recipe[] {
-	const filteredRecipes = allRecipes.filter(
-		(recipe) => recipe.slug !== "template",
-	);
 	if (category) {
-		return filteredRecipes.filter((recipe) => recipe.category === category);
+		return allRecipes.filter((recipe) => recipe.category === category);
 	}
-	return filteredRecipes;
+	return allRecipes;
 }
+
+function getRecipeBySlugUncached(slug: string): Recipe | undefined {
+	return allRecipes.find((recipe) => recipe.slug === slug);
+}
+
+export const getRecipeBySlug = cache(getRecipeBySlugUncached);
 
 export const getRecipes = cache(getRecipesUncached);
 
@@ -58,7 +61,7 @@ export const categoryBackgrounds: Record<CategorySlug, string> = {
 	extras: "custom-bg-4",
 	"main-dishes": "custom-bg-5",
 	"veggie-dishes": "custom-bg-6",
-	appetizers: "custom-bg-7",
+	appetizers: "custom-bg-4",
 	"drinks-sauces": "custom-bg-2",
 	"soups-salads": "custom-bg-9",
 };

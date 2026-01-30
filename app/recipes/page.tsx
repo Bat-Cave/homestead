@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { categories } from "./[category]/categories";
 import { categoryBackgrounds, getRecipes } from "./utils";
@@ -36,7 +35,7 @@ export default function RecipesPage() {
 								>
 									<span className="inline-flex size-8 rounded-full overflow-hidden items-center justify-center">
 										<span
-											style={{ backgroundSize: "50%" }}
+											style={{ backgroundSize: "25%" }}
 											className={cn(
 												"size-full flex bg-center",
 												categoryBackgrounds[category.slug],
