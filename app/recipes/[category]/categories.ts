@@ -28,10 +28,6 @@ export const categories = [
 		slug: "desserts",
 	},
 	{
-		name: "Cookies",
-		slug: "cookies",
-	},
-	{
 		name: "Extras",
 		slug: "extras",
 	},

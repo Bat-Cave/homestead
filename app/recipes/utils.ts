@@ -55,13 +55,12 @@ export function formatDate(date?: string, includeRelative = false) {
 }
 
 export const categoryBackgrounds: Record<CategorySlug, string> = {
-	breads: "custom-bg-1",
-	cookies: "custom-bg-2",
+	appetizers: "custom-bg-1",
+	breads: "custom-bg-2 bg-center",
 	desserts: "custom-bg-3",
-	extras: "custom-bg-4",
-	"main-dishes": "custom-bg-5",
-	"veggie-dishes": "custom-bg-6",
-	appetizers: "custom-bg-4",
-	"drinks-sauces": "custom-bg-2",
-	"soups-salads": "custom-bg-9",
+	"drinks-sauces": "custom-bg-4",
+	extras: "custom-bg-5",
+	"main-dishes": "custom-bg-6",
+	"soups-salads": "custom-bg-7 bg-center",
+	"veggie-dishes": "custom-bg-8 bg-center",
 };

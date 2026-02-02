@@ -36,7 +36,7 @@ export default function RecipesPage() {
 						const recipeCount = recipes.filter(
 							(recipe) => recipe.category === category.slug,
 						).length;
-						if (recipeCount === 0) return null;
+						// if (recipeCount === 0) return null;
 						return (
 							<li key={category.slug}>
 								<Link
@@ -45,9 +45,8 @@ export default function RecipesPage() {
 								>
 									<span className="inline-flex size-8 rounded-full overflow-hidden items-center justify-center">
 										<span
-											style={{ backgroundSize: "25%" }}
 											className={cn(
-												"size-full flex bg-center",
+												"size-full flex",
 												categoryBackgrounds[category.slug],
 											)}
 										/>

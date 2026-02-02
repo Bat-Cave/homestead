@@ -53,11 +53,7 @@ export default async function RecipeCategoriesPage({
 			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 flex items-center gap-2 mb-8">
 				<span className="inline-flex size-8 rounded-full overflow-hidden items-center justify-center">
 					<span
-						style={{ backgroundSize: "50%" }}
-						className={cn(
-							"size-full flex bg-center",
-							categoryBackgrounds[category],
-						)}
+						className={cn("size-full flex", categoryBackgrounds[category])}
 					/>
 				</span>
 				{validCategory.name}
