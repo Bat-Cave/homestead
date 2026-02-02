@@ -103,10 +103,14 @@ export default async function RecipeCategoriesPage({
 												recipe.cookTime != null &&
 												", "}
 											{recipe.cookTime != null && `${recipe.cookTime} min cook`}
-											{"  •  "}
-											<span className="italic font-semibold">
-												{recipe.acknowledgments?.join(", ")}
-											</span>
+											{recipe.acknowledgments && (
+												<>
+													&quot; • &quot;
+													<span className="italic font-semibold">
+														{recipe.acknowledgments?.join(", ")}
+													</span>
+												</>
+											)}
 										</span>
 									</Link>
 								</li>

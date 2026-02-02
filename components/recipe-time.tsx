@@ -147,6 +147,11 @@ export const RecipeTime = ({
 									bounce: 0,
 									duration: 0.5,
 								}}
+								characterClassName={cn(
+									"bg-linear-to-b from-fuchsia-600 dark:from-fuchsia-100 to-fuchsia-900 dark:to-fuchsia-400 bg-clip-text text-transparent",
+									completed &&
+										"bg-linear-to-b from-green-600 dark:from-green-100 to-green-900 dark:to-green-400",
+								)}
 							>
 								{formatSeconds(Math.floor(timeLeft / 1000))}
 							</TextMorph>{" "}

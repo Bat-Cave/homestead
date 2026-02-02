@@ -61,6 +61,7 @@ export interface Recipe {
 	servingUnits: [string, string];
 	ingredients: Ingredient[];
 	revisedFrom?: string;
+	sourceUrl?: string;
 	acknowledgments?: string[];
 	prepTime?: string | number;
 	cookTime?: string;

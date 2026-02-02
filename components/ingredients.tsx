@@ -343,8 +343,11 @@ export const Ingredients = ({
 					const displayQuantity = units === "decimal" ? decimal : fraction;
 
 					return (
-						<li key={name} className="lowercase list-none text-lg relative">
-							<span>
+						<li
+							key={name}
+							className="lowercase list-none text-lg relative flex gap-2"
+						>
+							<span className="inline-block shrink-0">
 								<TextMorph
 									characterClassName={cn(
 										"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
@@ -386,7 +389,7 @@ export const Ingredients = ({
 									</Popover>
 								)}
 							</motion.span>
-							<span className="absolute right-full mr-3 flex size-1 bg-black dark:bg-white rounded-full top-3"></span>
+							<span className="absolute right-full mr-3 flex size-1 bg-black/60 dark:bg-white/60 rounded-full top-3"></span>
 						</li>
 					);
 				})}

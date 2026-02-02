@@ -128,7 +128,7 @@
 	}
 
 	.btn {
-		@apply text-sm px-4 py-1 rounded-lg relative after:absolute after:-inset-[1px] shadow shadow-black disabled:grayscale transition-all duration-200 after:shadow-[inset_0_-3px_5px_0_var(--tw-shadow-color)] overflow-hidden active:scale-95;
+		@apply text-sm px-4 py-1 rounded-lg relative after:absolute after:-inset-[1px] shadow shadow-black disabled:grayscale transition-all duration-200 after:shadow-[inset_0_-3px_5px_0_var(--tw-shadow-color)] overflow-hidden active:scale-95 font-semibold;
 	}
 	.btn-transparent {
 		@apply text-sm px-4 py-1 rounded-lg relative disabled:grayscale transition-all duration-200 overflow-hidden active:scale-95;
@@ -313,12 +313,6 @@
 
 .prose ol {
 	@apply list-decimal pl-6 space-y-2;
-}
-
-.prose > :first-child {
-	/* Override removing top margin, causing layout shift */
-	margin-top: 1.25em !important;
-	margin-bottom: 1.25em !important;
 }
 
 .prose {

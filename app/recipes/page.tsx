@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { categories } from "./[category]/categories";
@@ -16,6 +17,15 @@ export default function RecipesPage() {
 
 	return (
 		<section className="max-w-xl mx-auto w-full">
+			<Link href="/" className="flex items-center gap-2 hover:underline mb-4">
+				<ArrowLeft aria-hidden="true" />
+				<span>
+					Back to{" "}
+					<span className="font-semibold text-violet-800 dark:text-violet-400">
+						Home
+					</span>
+				</span>
+			</Link>
 			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 mb-8">
 				Recipe Categories
 			</h1>

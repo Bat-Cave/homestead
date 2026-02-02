@@ -16,10 +16,6 @@ const navItems: Record<string, NavItem> = {
 	"/recipes": {
 		name: "Recipes",
 	},
-	"/#acknowledgments": {
-		name: "Acknowledgments",
-		hideOnMobile: true,
-	},
 };
 
 export function Navbar() {

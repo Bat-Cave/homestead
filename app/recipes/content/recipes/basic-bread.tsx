@@ -41,10 +41,7 @@ export const recipe: Recipe = {
 	cookTime: "100-145",
 	steps: [
 		<>
-			Combine <strong>first 5 ingredients</strong> into a mixing bowl.s
-		</>,
-		<>
-			Add{" "}
+			Combine <strong>first 5 ingredients</strong> and{" "}
 			<ReactiveIngredient
 				slug={slug}
 				ingredientIndex={5}
@@ -52,7 +49,7 @@ export const recipe: Recipe = {
 				quantity={2}
 				ingredients={ingredients}
 			/>{" "}
-			and spin breifly.
+			into a mixing bowl and spin breifly.
 		</>,
 		<>
 			Let sit for{" "}
@@ -75,7 +72,7 @@ export const recipe: Recipe = {
 			/>{" "}
 			at a time.
 		</>,
-		"Add flour until you can see the sides pull clean, as well as the dough coming clean from the bottom of the bowl.",
+		"Continue adding flour until you can see the sides pull clean, as well as the dough coming clean from the bottom of the bowl.",
 		<>
 			The dough should be very sticky and does not come together at this point,
 			but the bowl is clean.

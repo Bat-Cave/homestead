@@ -56,6 +56,19 @@ export default async function RecipePage({
 			</Link>
 			<article className="prose">
 				<h1>{recipe.title}</h1>
+				{recipe.sourceUrl && (
+					<p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+						Source:{" "}
+						<a
+							href={recipe.sourceUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="underline hover:text-zinc-700 dark:hover:text-zinc-300"
+						>
+							Original recipe
+						</a>
+					</p>
+				)}
 				<h2>Ingredients</h2>
 				<Ingredients
 					slug={recipe.slug}
