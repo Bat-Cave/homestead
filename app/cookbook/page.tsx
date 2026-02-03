@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function CookbookPage() {
 	return (
-		<main className="max-w-xl mx-auto w-full">
+		<section className="max-w-xl mx-auto w-full">
 			<Link href="/" className="flex items-center gap-2 hover:underline mb-4">
 				<ArrowLeft aria-hidden="true" />
 				<span>
@@ -90,6 +90,6 @@ export default function CookbookPage() {
 					casserole dish graphics.
 				</p>
 			</div>
-		</main>
+		</section>
 	);
 }

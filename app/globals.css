@@ -446,6 +446,10 @@ table {
 	animation: slideUp 300ms ease-out;
 }
 
+html > body[data-scroll-locked] {
+	overflow: visible !important;
+}
+
 @keyframes slideDown {
 	from {
 		height: 0;

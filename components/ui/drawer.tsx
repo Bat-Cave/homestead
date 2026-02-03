@@ -8,7 +8,14 @@ import { cn } from "@/lib/utils";
 function Drawer({
 	...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-	return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
+	const container = React.useMemo(() => {
+		return typeof window !== "undefined"
+			? window.document.getElementById("main")
+			: null;
+	}, []);
+	return (
+		<DrawerPrimitive.Root data-slot="drawer" container={container} {...props} />
+	);
 }
 
 function DrawerTrigger({

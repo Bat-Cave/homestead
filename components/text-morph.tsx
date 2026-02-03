@@ -15,16 +15,27 @@ export type TextMorphProps = {
 };
 
 const defaultVariants: Variants = {
-	initial: { opacity: 0 },
-	animate: { opacity: 1 },
-	exit: { opacity: 0 },
+	initial: {
+		filter: "blur(5px)",
+		opacity: 0,
+		scale: 0.95,
+	},
+	animate: {
+		filter: "blur(0px)",
+		opacity: 1,
+		scale: 1,
+	},
+	exit: {
+		filter: "blur(5px)",
+		opacity: 0,
+		scale: 0.95,
+	},
 };
 
 export const morphTransition: Transition = {
 	type: "spring",
-	stiffness: 280,
-	damping: 18,
-	mass: 0.3,
+	bounce: 0,
+	duration: 0.6,
 };
 
 export function TextMorph({

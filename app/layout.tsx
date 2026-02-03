@@ -56,7 +56,7 @@ export default function RootLayout({
 		<html
 			lang="en"
 			suppressHydrationWarning
-			className={cn(GeistSans.variable, GeistMono.variable)}
+			className={cn(GeistSans.variable, GeistMono.variable, "overflow-auto")}
 		>
 			<body className="antialiased overscroll-none">
 				<Providers>
@@ -152,7 +152,10 @@ export default function RootLayout({
 								</svg>
 							</div>
 							<div className="relative z-10 w-full">
-								<main className="min-w-0 min-h-lvh flex flex-col px-2 md:px-0 mx-2 lg:mx-auto pt-12">
+								<main
+									id="main"
+									className="min-w-0 min-h-lvh flex flex-col px-2 md:px-0 mx-2 lg:mx-auto pt-12"
+								>
 									<Navbar />
 									{children}
 									<Footer />

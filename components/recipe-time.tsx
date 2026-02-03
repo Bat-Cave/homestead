@@ -11,6 +11,16 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
 import { useTimer } from "@/hooks/useTimer";
 import { formatSeconds } from "@/lib/string-utils";
@@ -97,8 +107,8 @@ export const RecipeTime = ({
 	}, []);
 
 	return (
-		<Drawer handleOnly>
-			<DrawerTrigger asChild>
+		<Sheet>
+			<SheetTrigger asChild>
 				<button
 					className={cn(
 						"font-semibold after:absolute relative after:inset-x-0 after:-inset-y-px after:bg-fuchsia-300/50 dark:after:bg-fuchsia-800/50 after:rounded-md after:border after:border-fuchsia-400/70 dark:after:border-fuchsia-800/70 after:z-[-1] px-2 inline-flex items-center gap-2 active:scale-95 cursor-pointer transition-all duration-200 leading-none py-0.5 tabular-nums bg-linear-to-b from-fuchsia-600 dark:from-fuchsia-100 to-fuchsia-900 dark:to-fuchsia-400 bg-clip-text text-transparent",
@@ -159,31 +169,31 @@ export const RecipeTime = ({
 						</>
 					)}
 				</button>
-			</DrawerTrigger>
-			<DrawerContent
+			</SheetTrigger>
+			<SheetContent
+				side="bottom"
 				className="bg-transparent backdrop-blur-2xl pb-12"
-				handleClassName="dark:bg-fuchsia-100"
 			>
 				<div className="max-w-xl mx-auto px-4">
-					<DrawerHeader className="px-0 pb-0">
-						<DrawerTitle
+					<SheetHeader className="px-0 pb-0">
+						<SheetTitle
 							className={cn(
 								"text-fuchsia-400/80 dark:text-fuchsia-300/80 text-xl md:text-3xl text-left",
 								completed && "text-green-400/80 dark:text-green-300/80 ",
 							)}
 						>
 							Step {step.number}:
-						</DrawerTitle>
-						<DrawerDescription
+						</SheetTitle>
+						<SheetDescription
 							className={cn(
 								"text-xl md:text-3xl font-semibold text-left text-white",
 								completed && "text-green-400 dark:text-green-300",
 							)}
 						>
 							{step.name}
-						</DrawerDescription>
-					</DrawerHeader>
-					<AnimatePresence>
+						</SheetDescription>
+					</SheetHeader>
+					<AnimatePresence initial={false}>
 						{completed && (
 							<motion.span
 								initial={{ height: 0 }}
@@ -204,28 +214,6 @@ export const RecipeTime = ({
 								className="flex flex-col items-center justify-center text-white"
 							>
 								<TextMorph
-									variants={{
-										initial: {
-											filter: "blur(5px)",
-											opacity: 0,
-											scale: 0.9,
-										},
-										animate: {
-											filter: "blur(0px)",
-											opacity: 1,
-											scale: 1,
-										},
-										exit: {
-											filter: "blur(5px)",
-											opacity: 0,
-											scale: 0.9,
-										},
-									}}
-									transition={{
-										type: "spring",
-										bounce: 0,
-										duration: 0.5,
-									}}
 									className={cn(
 										"text-6xl md:text-9xl font-bold tabular-nums mt-12",
 										status === "paused"
@@ -301,7 +289,7 @@ export const RecipeTime = ({
 						)}
 					</AnimatePresence>
 				</div>
-			</DrawerContent>
-		</Drawer>
+			</SheetContent>
+		</Sheet>
 	);
 };
