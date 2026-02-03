@@ -10,7 +10,7 @@ const ingredients: Recipe["ingredients"] = [
 	{ name: "soy sauce", quantity: 0.25, unit: "cup" },
 	{ name: "chopped fresh ginger", quantity: 2, unit: "tsp" },
 	{ name: "chopped garlic", quantity: 2, unit: "tsp" },
-	{ name: "hot sauce", quantity: 2, unit: "tbsp" },
+	{ name: "hot sauce", quantity: 2, unit: "tsp" },
 	{
 		name: "boneless, skinless chicken breast halves, cut into ½-inch strips",
 		quantity: 4,

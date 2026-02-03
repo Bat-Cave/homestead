@@ -7,16 +7,6 @@ import { CSSProperties, useMemo } from "react";
 import { unitDefinitions } from "@/app/recipes/content/ingredients";
 import { Ingredient } from "@/app/recipes/content/types";
 import {
-	Menubar,
-	MenubarContent,
-	MenubarGroup,
-	MenubarItem,
-	MenubarMenu,
-	MenubarSeparator,
-	MenubarShortcut,
-	MenubarTrigger,
-} from "@/components/ui/menubar";
-import {
 	Popover,
 	PopoverContent,
 	PopoverDescription,
@@ -338,13 +328,12 @@ export const Ingredients = ({
 							</Tooltip>
 						</ButtonGroup>
 					</span> */}
-					<Menubar className="bg-transparent border-none p-0">
-						<MenubarMenu>
-							<MenubarTrigger unstyled className="btn btn-outline">
+					<div className="flex items-center gap-2">
+						<Popover>
+							<PopoverTrigger className="btn btn-outline">
 								Serving Sizes
-							</MenubarTrigger>
-							<MenubarContent
-								alignOffset={0}
+							</PopoverTrigger>
+							<PopoverContent
 								align="end"
 								className="bg-none bg-transparent backdrop-blur-3xl p-2 btn-outline"
 							>
@@ -354,21 +343,35 @@ export const Ingredients = ({
 										<AnimatePresence mode="popLayout">
 											{internalServings === servings ? (
 												<motion.span
-													className="text-xs text-violet-100"
+													className="text-xs text-violet-700 dark:text-violet-100"
 													key="original"
-													initial={{ opacity: 0, scale: 0.95 }}
+													initial={
+														prefersReducedMotion
+															? false
+															: { opacity: 0, scale: 0.95 }
+													}
 													animate={{ opacity: 1, scale: 1 }}
 													exit={{ opacity: 0, scale: 0.95 }}
+													transition={
+														prefersReducedMotion ? { duration: 0 } : undefined
+													}
 												>
 													Original
 												</motion.span>
 											) : (
 												<motion.span
-													className="text-xs text-indigo-200"
+													className="text-xs text-indigo-700 dark:text-indigo-200"
 													key="adjusted"
-													initial={{ opacity: 0, scale: 0.95 }}
+													initial={
+														prefersReducedMotion
+															? false
+															: { opacity: 0, scale: 0.95 }
+													}
 													animate={{ opacity: 1, scale: 1 }}
 													exit={{ opacity: 0, scale: 0.95 }}
+													transition={
+														prefersReducedMotion ? { duration: 0 } : undefined
+													}
 												>
 													Adjusted
 												</motion.span>
@@ -388,21 +391,31 @@ export const Ingredients = ({
 										</div>
 										<div className="flex gap-1 mb-2">
 											<button
-												className="flex justify-center size-6 items-center z-10 gap-0.5 btn btn-outline p-1 text-xs rounded-sm"
+												className="relative flex justify-center size-7 items-center z-10 gap-0.5 btn btn-outline p-1 text-xs rounded-sm cursor-pointer"
 												onClick={() =>
 													updateServingAmount(internalServings - 1)
 												}
 												disabled={internalServings === 1}
+												aria-label="Decrease servings by 1"
 											>
+												<span
+													className="absolute -inset-2"
+													aria-hidden="true"
+												/>
 												<Minus className="size-2" aria-hidden="true" />1
 												<span className="sr-only">Decrease servings by 1</span>
 											</button>
 											<button
-												className="flex justify-center size-6 items-center z-10 gap-0.5 btn btn-outline p-1 text-xs rounded-sm"
+												className="relative flex justify-center size-7 items-center z-10 gap-0.5 btn btn-outline p-1 text-xs rounded-sm cursor-pointer"
 												onClick={() =>
 													updateServingAmount(internalServings + 1)
 												}
+												aria-label="Increase servings by 1"
 											>
+												<span
+													className="absolute -inset-2"
+													aria-hidden="true"
+												/>
 												<Plus className="size-2" aria-hidden="true" />1
 												<span className="sr-only">Increase servings by 1</span>
 											</button>
@@ -447,11 +460,16 @@ export const Ingredients = ({
 																				className="absolute -right-px top-1/2 -translate-y-1/2 pointer-events-auto"
 																			>
 																				<button
-																					className="btn flex justify-center size-6 items-center z-10 gap-0.5 btn-outline px-1 py-0.5 rounded-sm"
+																					className="relative btn flex justify-center size-7 items-center z-10 gap-0.5 btn-outline px-1 py-0.5 rounded-sm cursor-pointer"
 																					onClick={() =>
 																						updateServingAmount(servings * 2)
 																					}
+																					aria-label="Increase servings to double the original amount"
 																				>
+																					<span
+																						className="absolute -inset-2"
+																						aria-hidden="true"
+																					/>
 																					<svg
 																						xmlns="http://www.w3.org/2000/svg"
 																						width="24"
@@ -483,11 +501,7 @@ export const Ingredients = ({
 																						/>
 																					</svg>
 																				</button>
-																				<span className="flex absolute right-full h-px w-4 bg-violet-400 top-1/2 -translate-y-1/2"></span>
-																				<span className="z-10 flex absolute -left-[17px] top-1/2 -translate-y-1/2 size-3 -translate-x-1/2 rounded-full outline-violet-400 bg-black outline"></span>
-																				<span className="flex absolute -left-7 text-xs font-mono -translate-x-full top-1/2 -translate-y-1/2">
-																					{servings * 2}
-																				</span>
+																				<ServingDot servings={servings * 2} />
 																			</span>
 																		) : arr.length - i === servings ? (
 																			<span
@@ -495,14 +509,19 @@ export const Ingredients = ({
 																				className="absolute -right-px top-1/2 -translate-y-1/2 pointer-events-auto"
 																			>
 																				<button
-																					className="btn flex justify-center size-6 items-center z-10 gap-0.5 btn-outline-warning px-1 py-0.5 rounded-sm"
+																					className="relative btn flex justify-center size-7 items-center z-10 gap-0.5 btn-outline-warning px-1 py-0.5 rounded-sm cursor-pointer"
 																					onClick={() =>
 																						updateServingAmount(servings)
 																					}
 																					disabled={
 																						internalServings === servings
 																					}
+																					aria-label="Reset servings to original"
 																				>
+																					<span
+																						className="absolute -inset-2"
+																						aria-hidden="true"
+																					/>
 																					<RotateCcw
 																						className="size-4 translate-y-px"
 																						aria-hidden="true"
@@ -511,11 +530,7 @@ export const Ingredients = ({
 																						Reset servings to original
 																					</span>
 																				</button>
-																				<span className="flex absolute right-full h-px w-4 bg-violet-400 top-1/2 -translate-y-1/2"></span>
-																				<span className="z-10 flex absolute -left-[17px] top-1/2 -translate-y-1/2 size-3 -translate-x-1/2 rounded-full outline-violet-400 bg-black outline"></span>
-																				<span className="flex absolute -left-7 text-xs font-mono -translate-x-full top-1/2 -translate-y-1/2">
-																					{servings}
-																				</span>
+																				<ServingDot servings={servings} />
 																			</span>
 																		) : (
 																			<span
@@ -523,13 +538,18 @@ export const Ingredients = ({
 																				className="absolute -right-px top-1/2 -translate-y-1/2 pointer-events-auto"
 																			>
 																				<button
-																					className="btn flex justify-center size-6 items-center z-10 gap-0.5 btn-outline px-1 py-0.5 rounded-sm"
+																					className="relative btn flex justify-center size-7 items-center z-10 gap-0.5 btn-outline px-1 py-0.5 rounded-sm cursor-pointer"
 																					onClick={() =>
 																						updateServingAmount(
 																							Math.floor(servings / 2),
 																						)
 																					}
+																					aria-label="Decrease servings to half the original amount"
 																				>
+																					<span
+																						className="absolute -inset-2"
+																						aria-hidden="true"
+																					/>
 																					<svg
 																						xmlns="http://www.w3.org/2000/svg"
 																						width="24"
@@ -547,16 +567,14 @@ export const Ingredients = ({
 																						/>
 																					</svg>
 																				</button>
-																				<span className="flex absolute right-full h-px w-4 bg-violet-400 top-1/2 -translate-y-1/2"></span>
-																				<span className="z-10 flex absolute -left-[17px] top-1/2 -translate-y-1/2 size-3 -translate-x-1/2 rounded-full outline-violet-400 bg-black outline"></span>
-																				<span className="flex absolute -left-7 text-xs font-mono -translate-x-full top-1/2 -translate-y-1/2">
-																					{Math.floor(servings / 2)}
-																				</span>
+																				<ServingDot
+																					servings={Math.floor(servings / 2)}
+																				/>
 																			</span>
 																		)
 																	) : (
-																		<span></span>
-																		// <span className="flex h-px w-2 bg-violet-400 absolute left-0 top-1/2 -translate-y-1/2 translate-x-[calc(-50%-.5px)]"></span>
+																		// <span></span>
+																		<span className="flex h-px w-2 bg-violet-400 absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2"></span>
 																	)}
 																	<AnimatePresence>
 																		{arr.length - i ===
@@ -575,6 +593,11 @@ export const Ingredients = ({
 																						? "size-1 -translate-y-2"
 																						: "",
 																				)}
+																				transition={
+																					prefersReducedMotion
+																						? { duration: 0 }
+																						: undefined
+																				}
 																			/>
 																		)}
 																	</AnimatePresence>
@@ -587,76 +610,75 @@ export const Ingredients = ({
 									</div>
 									{/* <p>{servingUnits[internalServings > 1 ? 1 : 0]}</p> */}
 								</div>
-							</MenubarContent>
-						</MenubarMenu>
-						<MenubarMenu>
-							<MenubarTrigger unstyled className="btn btn-outline-secondary">
+							</PopoverContent>
+						</Popover>
+						<Popover>
+							<PopoverTrigger className="btn btn-outline-secondary">
 								Units
-							</MenubarTrigger>
-							<MenubarContent
-								alignOffset={0}
-								align="end"
-								className="bg-none bg-transparent backdrop-blur-3xl p-2 btn-outline-secondary"
-							>
-								<div className="flex gap-1">
-									<button
-										className="btn btn-outline-secondary gap-2 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-10"
-										onClick={() => updateUnits("decimal")}
-										onKeyDown={(e) =>
-											handleKeyDown(e, () => updateUnits("decimal"))
-										}
-										disabled={units === "decimal"}
-										aria-label="Decimal"
+							</PopoverTrigger>
+						<PopoverContent
+							align="end"
+							className="bg-none bg-transparent backdrop-blur-3xl p-2 btn-outline-secondary"
+						>
+							<div className="flex gap-1">
+								<button
+									className="btn btn-outline-secondary gap-2 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-10"
+									onClick={() => updateUnits("decimal")}
+									onKeyDown={(e) =>
+										handleKeyDown(e, () => updateUnits("decimal"))
+									}
+									disabled={units === "decimal"}
+									aria-label="Decimal"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										strokeWidth="2"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										className="size-4"
+										aria-hidden="true"
 									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="24"
-											height="24"
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											strokeWidth="2"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											className="size-4"
-											aria-hidden="true"
-										>
-											<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-											<path d="M17 8a2 2 0 0 1 2 2v4a2 2 0 1 1 -4 0v-4a2 2 0 0 1 2 -2" />
-											<path d="M10 8a2 2 0 0 1 2 2v4a2 2 0 1 1 -4 0v-4a2 2 0 0 1 2 -2" />
-											<path d="M5 16h.01" />
-										</svg>{" "}
-										Decimals
-									</button>
-									<button
-										className="btn btn-outline-secondary gap-2 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-10"
-										onClick={() => updateUnits("fraction")}
-										onKeyDown={(e) =>
-											handleKeyDown(e, () => updateUnits("fraction"))
-										}
-										disabled={units === "fraction"}
-										aria-label="Fraction"
+										<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+										<path d="M17 8a2 2 0 0 1 2 2v4a2 2 0 1 1 -4 0v-4a2 2 0 0 1 2 -2" />
+										<path d="M10 8a2 2 0 0 1 2 2v4a2 2 0 1 1 -4 0v-4a2 2 0 0 1 2 -2" />
+										<path d="M5 16h.01" />
+									</svg>{" "}
+									Decimals
+								</button>
+								<button
+									className="btn btn-outline-secondary gap-2 shrink-0 flex items-center justify-center rounded-sm disabled:z-0 z-10"
+									onClick={() => updateUnits("fraction")}
+									onKeyDown={(e) =>
+										handleKeyDown(e, () => updateUnits("fraction"))
+									}
+									disabled={units === "fraction"}
+									aria-label="Fraction"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										className="size-4"
+										aria-hidden="true"
 									>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="24"
-											height="24"
-											viewBox="0 0 24 24"
-											className="size-4"
-											aria-hidden="true"
-										>
-											<title>Fraction-one-half SVG Icon</title>
-											<path
-												fill="currentColor"
-												d="m5.79 21.61l-1.58-1.22l14-18l1.58 1.22zM4 2v2h2v8h2V2zm11 10v2h4v2h-2c-1.1 0-2 .9-2 2v4h6v-2h-4v-2h2c1.11 0 2-.89 2-2v-2a2 2 0 0 0-2-2z"
-											/>
-										</svg>
-										Fractions
-									</button>
-								</div>
-							</MenubarContent>
-						</MenubarMenu>
-					</Menubar>
+										<title>Fraction-one-half SVG Icon</title>
+										<path
+											fill="currentColor"
+											d="m5.79 21.61l-1.58-1.22l14-18l1.58 1.22zM4 2v2h2v8h2V2zm11 10v2h4v2h-2c-1.1 0-2 .9-2 2v4h6v-2h-4v-2h2c1.11 0 2-.89 2-2v-2a2 2 0 0 0-2-2z"
+										/>
+									</svg>
+									Fractions
+								</button>
+							</div>
+						</PopoverContent>
+					</Popover>
+					</div>
 				</div>
 			</div>
 			<ul className="space-y-2">
@@ -702,7 +724,7 @@ export const Ingredients = ({
 										<PopoverTrigger className="text-sm underline text-violet-800/70 dark:text-violet-400/70 hover:text-violet-800 dark:hover:text-violet-400">
 											alternatives
 										</PopoverTrigger>
-										<PopoverContent>
+										<PopoverContent className="bg-none bg-transparent backdrop-blur-3xl p-2 btn-outline">
 											<PopoverHeader>
 												<PopoverTitle>Alternatives</PopoverTitle>
 												<PopoverDescription className="sr-only">
@@ -815,5 +837,17 @@ export const ReactiveServings = ({
 					? servingUnits[1]
 					: servingUnits[0]}
 		</span>
+	);
+};
+
+const ServingDot = ({ servings }: { servings: number }) => {
+	return (
+		<>
+			<span className="flex absolute right-full h-px w-4 bg-violet-400 top-1/2 -translate-y-1/2"></span>
+			<span className="z-10 flex absolute -left-[13px] top-1/2 -translate-y-1/2 size-3 -translate-x-1/2 rounded-full outline-violet-400 dark:bg-black bg-white outline"></span>
+			<span className="flex absolute -left-7 text-xs font-mono -translate-x-full top-1/2 -translate-y-1/2">
+				{servings}
+			</span>
+		</>
 	);
 };
