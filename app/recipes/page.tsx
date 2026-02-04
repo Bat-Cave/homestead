@@ -36,9 +36,9 @@ export default function RecipesPage() {
 						const recipeCount = recipes.filter(
 							(recipe) => recipe.category === category.slug,
 						).length;
-						// if (recipeCount === 0) return null;
+						if (recipeCount === 0) return null;
 						return (
-							<li key={category.slug}>
+							<li key={category.slug} className="flex flex-col items-start">
 								<Link
 									href={`/recipes/${category.slug}`}
 									className="text-xl font-medium flex items-center gap-4 group"

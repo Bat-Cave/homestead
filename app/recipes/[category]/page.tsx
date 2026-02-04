@@ -79,9 +79,9 @@ export default async function RecipeCategoriesPage({
 						<p className="uppercase font-semibold text-sm tracking-wider">
 							{key}
 						</p>
-						<ul>
+						<ul className="space-y-2 mt-2">
 							{recipes.map((recipe) => (
-								<li key={recipe.slug} className="flex flex-col">
+								<li key={recipe.slug} className="flex flex-col items-start">
 									<Link
 										key={recipe.slug}
 										href={`/recipes/${category}/${recipe.slug}`}
@@ -101,7 +101,7 @@ export default async function RecipeCategoriesPage({
 											{recipe.cookTime != null && `${recipe.cookTime} min cook`}
 											{recipe.acknowledgments && (
 												<>
-													&quot; • &quot;
+													{" • "}
 													<span className="italic font-semibold">
 														{recipe.acknowledgments?.join(", ")}
 													</span>

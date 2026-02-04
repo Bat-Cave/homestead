@@ -23,7 +23,7 @@ export default function Home() {
 				website offers, please{" "}
 				<Link
 					href="/cookbook"
-					className="font-semibold text-violet-800 dark:text-violet-500 hover:underline"
+					className="underline font-semibold text-violet-800 dark:text-violet-500 hover:underline"
 				>
 					prioritize using the cookbook over this website.
 				</Link>
@@ -38,13 +38,6 @@ export default function Home() {
 					className="btn btn-solid flex overflow-hidden group items-center w-max"
 				>
 					View Recipes{" "}
-					<ArrowRight className="size-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-				</Link>
-				<Link
-					href="/cookbook"
-					className="btn btn-solid-secondary flex overflow-hidden group items-center w-max"
-				>
-					Read Cookbook Intro{" "}
 					<ArrowRight className="size-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
 				</Link>
 			</div>
