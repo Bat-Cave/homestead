@@ -3,9 +3,10 @@
 import Fraction from "fraction.js";
 import { X } from "lucide-react";
 import { motion } from "motion/react";
-import { useMemo } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { unitDefinitions } from "@/app/recipes/content/ingredients";
-import { Ingredient } from "@/app/recipes/content/types";
+import type { Ingredient, Recipe } from "@/app/recipes/content/types";
 import {
 	Popover,
 	PopoverContent,
@@ -14,6 +15,15 @@ import {
 	PopoverTitle,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import { useRecipeUnitsStore } from "@/stores/recipe-units";
@@ -45,6 +55,24 @@ export const Ingredients = ({
 		() => new Map(unitDefinitions.map((u) => [u.value, u])),
 		[],
 	);
+	const [recipeMap, setRecipeMap] = useState<Map<string, Recipe> | null>(null);
+	const hasRecipeReferences = recipeIngredients.some(
+		(ingredient) => Boolean(ingredient.recipeSlug),
+	);
+
+	useEffect(() => {
+		if (!hasRecipeReferences || recipeMap) return;
+
+		let isMounted = true;
+		import("@/app/recipes/content/recipes").then((mod) => {
+			if (!isMounted) return;
+			setRecipeMap(new Map(mod.allRecipes.map((recipe) => [recipe.slug, recipe])));
+		});
+
+		return () => {
+			isMounted = false;
+		};
+	}, [hasRecipeReferences, recipeMap]);
 
 	if (!recipeIngredients) return null;
 
@@ -64,6 +92,13 @@ export const Ingredients = ({
 			e.preventDefault();
 			action();
 		}
+	};
+
+	const formatQuantity = (quantity: number) => {
+		const baseQuantity = new Fraction(quantity).simplify();
+		return units === "decimal"
+			? baseQuantity.round(3).toString()
+			: baseQuantity.toFraction(true);
 	};
 
 	return (
@@ -223,7 +258,8 @@ export const Ingredients = ({
 				</div>
 			</div>
 			<ul className="space-y-2">
-				{recipeIngredients.map(({ name, quantity, unit, alternatives }) => {
+				{recipeIngredients.map(
+					({ name, quantity, unit, alternatives, recipeSlug }) => {
 					const unitDetails = unitMap.get(unit);
 					const adjustedQuantity =
 						Math.round(
@@ -233,6 +269,8 @@ export const Ingredients = ({
 					const fraction = baseQuantity.toFraction(true);
 					const decimal = baseQuantity.round(3).toString();
 					const displayQuantity = units === "decimal" ? decimal : fraction;
+					const referencedRecipe =
+						recipeSlug && recipeMap ? recipeMap.get(recipeSlug) : undefined;
 
 					return (
 						<li
@@ -259,7 +297,69 @@ export const Ingredients = ({
 								}
 							>
 								{adjustedQuantity > 1 ? unitDetails?.plural : unitDetails?.name}{" "}
-								{name}{" "}
+								{referencedRecipe ? (
+									<Dialog>
+										<DialogTrigger asChild>
+											<button
+												type="button"
+												className="underline decoration-1 underline-offset-2 text-violet-800/80 hover:text-violet-900 dark:text-violet-300/80 dark:hover:text-violet-200 transition-colors"
+											>
+												{name}
+											</button>
+										</DialogTrigger>
+										<DialogContent>
+											<DialogHeader>
+												<DialogTitle>{referencedRecipe.title}</DialogTitle>
+												<DialogDescription>
+													Ingredient list
+												</DialogDescription>
+											</DialogHeader>
+											<ul className="list-disc list-inside space-y-1">
+												{referencedRecipe.ingredients.map((ingredient) => {
+													const scaledQuantity =
+														ingredient.quantity * (internalServings / servings);
+													const referencedUnit = unitMap.get(ingredient.unit);
+													const displayUnit =
+														ingredient.unit === ""
+															? ""
+															: scaledQuantity > 1
+																? referencedUnit?.plural
+																: referencedUnit?.name;
+													const displayQty = formatQuantity(scaledQuantity);
+
+													return (
+														<li key={ingredient.name}>
+															{displayQty}{" "}
+															{displayUnit ? `${displayUnit} ` : ""}
+															{ingredient.name}
+														</li>
+													);
+												})}
+											</ul>
+											<div className="space-y-2">
+												<h3 className="text-base font-semibold">Steps</h3>
+												<ol className="list-decimal list-inside space-y-1">
+													{referencedRecipe.steps.map((step, index) => (
+														<li key={`${referencedRecipe.slug}-step-${index}`}>
+															{step}
+														</li>
+													))}
+												</ol>
+											</div>
+											<div className="flex justify-end">
+												<Button asChild>
+													<Link
+														href={`/recipes/${referencedRecipe.category}/${referencedRecipe.slug}`}
+													>
+														View full recipe
+													</Link>
+												</Button>
+											</div>
+										</DialogContent>
+									</Dialog>
+								) : (
+									name
+								)}{" "}
 								{(alternatives?.length ?? 0) > 0 && (
 									<Popover>
 										<PopoverTrigger className="text-sm underline text-violet-800/70 dark:text-violet-400/70 hover:text-violet-800 dark:hover:text-violet-400">

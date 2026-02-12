@@ -6,6 +6,7 @@ export type Ingredient = {
 	quantity: number;
 	unit: IngredientUnit;
 	alternatives?: string[];
+	recipeSlug?: string;
 };
 
 export type IngredientUnit =
