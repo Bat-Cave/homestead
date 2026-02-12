@@ -6,6 +6,7 @@ import { recipe as homemadeChineseEggNoodles } from "./homemade-chinese-egg-nood
 import { recipe as honeySoyChicken } from "./honey-soy-chicken";
 import { recipe as jalapenoPoppers } from "./jalapeno-poppers";
 import { recipe as salsa } from "./salsa";
+import { recipe as stirFrySauce } from "./stir-fry-sauce";
 
 export const allRecipes: Recipe[] = [
 	basicBread,
@@ -15,4 +16,5 @@ export const allRecipes: Recipe[] = [
 	buttermilkPancakes,
 	honeySoyChicken,
 	homemadeChineseEggNoodles,
+	stirFrySauce,
 ];
