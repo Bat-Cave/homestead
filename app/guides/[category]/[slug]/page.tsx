@@ -1,7 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
 import { getGuideBySlug, getGuides } from "../../utils";
 import { type CategorySlug, categories } from "../categories";
 
@@ -59,15 +58,6 @@ export default async function GuidePage({
 				<p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
 					{guide.description}
 				</p>
-				{guide.tags.length > 0 && (
-					<div className="flex flex-wrap gap-2 mt-3">
-						{guide.tags.map((tag) => (
-							<Badge key={tag} variant="outline">
-								{tag}
-							</Badge>
-						))}
-					</div>
-				)}
 				<div className="mt-6">{guide.content}</div>
 			</article>
 		</main>

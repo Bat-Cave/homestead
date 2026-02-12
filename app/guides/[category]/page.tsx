@@ -51,10 +51,7 @@ export default async function GuidesCategoryPage({
 			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 flex items-center gap-2 mb-8">
 				<span className="inline-flex size-8 rounded-full overflow-hidden items-center justify-center">
 					<span
-						className={cn(
-							"size-full flex",
-							categoryBackgrounds[category],
-						)}
+						className={cn("size-full flex", categoryBackgrounds[category])}
 					/>
 				</span>
 				{validCategory.name}
@@ -85,13 +82,10 @@ export default async function GuidesCategoryPage({
 								<li key={guide.slug} className="flex flex-col items-start">
 									<Link
 										href={`/guides/${category}/${guide.slug}`}
-										className="group"
+										className="group truncate overflow-hidden w-full"
 									>
 										<span className="font-semibold text-lg group-hover:underline">
 											{guide.title}
-										</span>
-										<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2">
-											{guide.description}
 										</span>
 									</Link>
 								</li>

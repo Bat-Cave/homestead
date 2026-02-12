@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import { cache } from "react";
 import { compileMDX } from "next-mdx-remote/rsc";
+import { cache } from "react";
+import { type CategorySlug, categories } from "./[category]/categories";
 import type { Guide, GuideWithContent } from "./types";
-import { categories, type CategorySlug } from "./[category]/categories";
 
 const guidesDirectory = path.join(process.cwd(), "app", "guides", "content");
 
@@ -35,12 +35,14 @@ function validateFrontmatter(data: Record<string, unknown>, filePath: string) {
 		throw new Error(`Frontmatter "title" must be a string in ${filePath}`);
 	}
 	if (typeof data.description !== "string") {
-		throw new Error(`Frontmatter "description" must be a string in ${filePath}`);
+		throw new Error(
+			`Frontmatter "description" must be a string in ${filePath}`,
+		);
 	}
 	if (typeof data.category !== "string") {
 		throw new Error(`Frontmatter "category" must be a string in ${filePath}`);
 	}
-	if (!validCategories.has(data.category)) {
+	if (!validCategories.has(data.category as CategorySlug)) {
 		throw new Error(
 			`Frontmatter "category" must be one of ${[...validCategories].join(
 				", ",
@@ -57,7 +59,9 @@ function parseFrontmatter(fileContents: string, filePath: string) {
 	if (lines[0]?.trim() !== "---") {
 		throw new Error(`Missing frontmatter start marker in ${filePath}`);
 	}
-	const endIndex = lines.findIndex((line, index) => index > 0 && line.trim() === "---");
+	const endIndex = lines.findIndex(
+		(line, index) => index > 0 && line.trim() === "---",
+	);
 	if (endIndex === -1) {
 		throw new Error(`Missing frontmatter end marker in ${filePath}`);
 	}
@@ -78,7 +82,9 @@ function parseFrontmatter(fileContents: string, filePath: string) {
 			if (!inner) {
 				data[key] = [];
 			} else {
-				data[key] = inner.split(",").map((item) => item.trim().replace(/^\"|\"$/g, ""));
+				data[key] = inner
+					.split(",")
+					.map((item) => item.trim().replace(/^\"|\"$/g, ""));
 			}
 			continue;
 		}
@@ -125,9 +131,7 @@ async function getGuideBySlugUncached(
 	category: CategorySlug,
 	slug: string,
 ): Promise<GuideWithContent | undefined> {
-	const guide = getGuidesUncached(category).find(
-		(item) => item.slug === slug,
-	);
+	const guide = getGuidesUncached(category).find((item) => item.slug === slug);
 
 	if (!guide) return undefined;
 
