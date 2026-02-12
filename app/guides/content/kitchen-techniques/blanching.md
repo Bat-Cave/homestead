@@ -1,5 +1,5 @@
 ---
-title: "Blanching: What It Is"
+title: "Blanching: How To"
 description: "A simple guide to blanching vegetables for freezing and preserving texture."
 category: "kitchen-techniques"
 tags: ["blanching", "freezing", "vegetables", "food preservation"]
