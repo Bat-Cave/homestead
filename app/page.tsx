@@ -40,6 +40,13 @@ export default function Home() {
 					View Recipes{" "}
 					<ArrowRight className="size-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
 				</Link>
+				<Link
+					href="/guides"
+					className="btn btn-solid-secondary flex overflow-hidden group items-center w-max"
+				>
+					View Guides{" "}
+					<ArrowRight className="size-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+				</Link>
 			</div>
 		</section>
 	);

@@ -16,6 +16,9 @@ const navItems: Record<string, NavItem> = {
 	"/recipes": {
 		name: "Recipes",
 	},
+	"/guides": {
+		name: "Guides",
+	},
 };
 
 export function Navbar() {
