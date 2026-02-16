@@ -1,8 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { categories } from "./[category]/categories";
-import { categoryBackgrounds, getRecipes } from "./utils";
+import { categories } from "../[category]/categories";
+import { categoryBackgrounds, getRecipes } from "../utils";
 
 export const metadata = {
 	robots: {
@@ -17,12 +17,15 @@ export default function RecipesPage() {
 
 	return (
 		<section className="max-w-xl mx-auto w-full">
-			<Link href="/" className="flex items-center gap-2 hover:underline mb-4">
+			<Link
+				href="/recipes"
+				className="flex items-center gap-2 hover:underline mb-4"
+			>
 				<ArrowLeft aria-hidden="true" />
 				<span>
 					Back to{" "}
 					<span className="font-semibold text-violet-800 dark:text-violet-400">
-						Home
+						Recipes
 					</span>
 				</span>
 			</Link>

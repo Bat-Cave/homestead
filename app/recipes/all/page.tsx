@@ -1,10 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Recipe } from "../content/types";
 import { categoryBackgrounds, getRecipes } from "../utils";
-import { CategorySlug, categories } from "./categories";
 
 export const metadata = {
 	robots: {
@@ -14,53 +12,29 @@ export const metadata = {
 	},
 };
 
-// Generate static params at build time for all category pages
-export async function generateStaticParams() {
-	return categories.map((category) => ({
-		category: category.slug,
-	}));
-}
-
-export default async function RecipeCategoriesPage({
-	params,
-}: {
-	params: Promise<{ category: CategorySlug }>;
-}) {
-	const { category } = await params;
-
-	const validCategory = categories.find((c) => c.slug === category);
-
-	if (!validCategory) {
-		return notFound();
-	}
-	const recipes = getRecipes(validCategory.slug);
+export default function AllRecipesPage() {
+	const recipes = [...getRecipes()].sort((a, b) =>
+		a.title.localeCompare(b.title),
+	);
 
 	return (
 		<section className="max-w-xl mx-auto w-full">
 			<Link
-				href={`/recipes/categories`}
-				className="flex items-center gap-2 hover:underline"
+				href="/recipes"
+				className="flex items-center gap-2 hover:underline mb-4"
 			>
 				<ArrowLeft aria-hidden="true" />
 				<span>
 					Back to{" "}
 					<span className="font-semibold text-violet-800 dark:text-violet-400">
-						All Categories
+						Recipes
 					</span>
 				</span>
 			</Link>
-			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 flex items-center gap-2 mb-8">
-				<span className="inline-flex size-8 rounded-full overflow-hidden items-center justify-center">
-					<span
-						className={cn("size-full flex", categoryBackgrounds[category])}
-					/>
-				</span>
-				{validCategory.name}
-				<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2 tracking-normal">
-					{`${recipes.length} recipe${recipes.length === 1 ? "" : "s"}`}
-				</span>
+			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 mb-8">
+				All Recipes
 			</h1>
-			<ul className="space-y-4">
+			<ul className="space-y-3">
 				{Object.entries(
 					[...recipes].reduce(
 						(acc, recipe) => {
@@ -83,10 +57,18 @@ export default async function RecipeCategoriesPage({
 								<li key={recipe.slug} className="flex flex-col items-start">
 									<Link
 										key={recipe.slug}
-										href={`/recipes/${category}/${recipe.slug}`}
-										className="group"
+										href={`/recipes/${recipe.category}/${recipe.slug}`}
+										className="group flex items-center gap-1"
 									>
-										<span className="font-semibold text-lg group-hover:underline">
+										<span className="inline-flex size-8 scale-50 rounded-full overflow-hidden items-center justify-center">
+											<span
+												className={cn(
+													"size-full flex",
+													categoryBackgrounds[recipe.category],
+												)}
+											/>
+										</span>
+										<span className="font-semibold text-lg group-hover:underline shrink-0">
 											{recipe.title}
 										</span>
 										<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2">
@@ -98,14 +80,6 @@ export default async function RecipeCategoriesPage({
 												recipe.cookTime != null &&
 												", "}
 											{recipe.cookTime != null && `${recipe.cookTime} min cook`}
-											{recipe.acknowledgments && (
-												<>
-													{" • "}
-													<span className="italic font-semibold">
-														{recipe.acknowledgments?.join(", ")}
-													</span>
-												</>
-											)}
 										</span>
 									</Link>
 								</li>

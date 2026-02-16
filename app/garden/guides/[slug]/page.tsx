@@ -1,8 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getGuideBySlug, getGuides } from "../../utils";
-import { type CategorySlug, categories } from "../categories";
+import { getGardenEntries, getGardenEntryBySlug } from "../../utils";
 
 export const metadata = {
 	robots: {
@@ -13,52 +12,40 @@ export const metadata = {
 };
 
 export async function generateStaticParams() {
-	return categories.flatMap((category) =>
-		getGuides(category.slug).map((guide) => ({
-			category: guide.category,
-			slug: guide.slug,
-		})),
-	);
+	return getGardenEntries().map((entry) => ({
+		slug: entry.slug,
+	}));
 }
 
-export default async function GuidePage({
+export default async function GardenEntryPage({
 	params,
 }: {
-	params: Promise<{ category: CategorySlug; slug: string }>;
+	params: Promise<{ slug: string }>;
 }) {
-	const { category, slug } = await params;
-	const validCategory = categories.find((c) => c.slug === category);
+	const { slug } = await params;
+	const entry = await getGardenEntryBySlug(slug);
 
-	if (!validCategory) {
-		return notFound();
-	}
-
-	const guide = await getGuideBySlug(category, slug);
-
-	if (!guide) {
+	if (!entry) {
 		return notFound();
 	}
 
 	return (
 		<main className="max-w-xl mx-auto w-full">
-			<Link
-				href={`/guides/${category}`}
-				className="flex items-center gap-2 hover:underline"
-			>
+			<Link href="/garden/guides" className="flex items-center gap-2 hover:underline">
 				<ArrowLeft aria-hidden="true" />
 				<span>
 					Back to{" "}
 					<span className="font-semibold text-violet-800 dark:text-violet-400">
-						{validCategory.name}
+						Garden Guides
 					</span>
 				</span>
 			</Link>
 			<article className="prose">
-				<h1>{guide.title}</h1>
+				<h1>{entry.title}</h1>
 				<p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-					{guide.description}
+					{entry.description}
 				</p>
-				<div className="mt-6">{guide.content}</div>
+				<div className="mt-6">{entry.content}</div>
 			</article>
 		</main>
 	);

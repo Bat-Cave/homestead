@@ -16,8 +16,8 @@ const navItems: Record<string, NavItem> = {
 	"/recipes": {
 		name: "Recipes",
 	},
-	"/guides": {
-		name: "Guides",
+	"/garden": {
+		name: "Garden",
 	},
 };
 

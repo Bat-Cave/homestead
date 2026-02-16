@@ -1,7 +1,6 @@
 ---
 title: "Broccoli: Harvesting and Storing"
 description: "Guide to harvesting, storing, and freezing broccoli for peak flavor and long-term use."
-category: "gardening"
 tags: ["broccoli", "harvesting", "storage", "freezing", "vegetables"]
 ---
 

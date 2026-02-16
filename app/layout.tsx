@@ -65,7 +65,7 @@ export default function RootLayout({
 							<div
 								className="fixed w-lvw h-lvh opacity-30"
 								style={{
-									backgroundImage: `radial-gradient(rgba(192, 132, 252, .2) 2px, transparent 0)`,
+									backgroundImage: `radial-gradient(rgba(69, 26, 3, .2) 2px, transparent 0)`,
 									backgroundSize: "15px 15px",
 									backgroundPosition: "-16.5px -16.5px",
 									maskImage: `radial-gradient(ellipse at center, rgba(0, 0, 0, 1), transparent 75%)`,

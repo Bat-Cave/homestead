@@ -1,14 +1,11 @@
-import type { CategorySlug } from "./[category]/categories";
-
-export type Guide = {
+export type GardenEntry = {
 	slug: string;
-	category: CategorySlug;
 	title: string;
 	description: string;
 	tags: string[];
 	filePath: string;
 };
 
-export type GuideWithContent = Guide & {
+export type GardenEntryWithContent = GardenEntry & {
 	content: React.ReactNode;
 };

@@ -5,16 +5,12 @@ import { X } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { unitDefinitions } from "@/app/recipes/content/ingredients";
-import type { Ingredient, Recipe } from "@/app/recipes/content/types";
 import {
-	Popover,
-	PopoverContent,
-	PopoverDescription,
-	PopoverHeader,
-	PopoverTitle,
-	PopoverTrigger,
-} from "@/components/ui/popover";
+	unitDefinitions,
+	unitLessIngredients,
+} from "@/app/recipes/content/ingredients";
+import type { Ingredient, Recipe } from "@/app/recipes/content/types";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
@@ -23,7 +19,14 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import {
+	Popover,
+	PopoverContent,
+	PopoverDescription,
+	PopoverHeader,
+	PopoverTitle,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 import { useRecipeUnitsStore } from "@/stores/recipe-units";
@@ -56,8 +59,8 @@ export const Ingredients = ({
 		[],
 	);
 	const [recipeMap, setRecipeMap] = useState<Map<string, Recipe> | null>(null);
-	const hasRecipeReferences = recipeIngredients.some(
-		(ingredient) => Boolean(ingredient.recipeSlug),
+	const hasRecipeReferences = recipeIngredients.some((ingredient) =>
+		Boolean(ingredient.recipeSlug),
 	);
 
 	useEffect(() => {
@@ -66,7 +69,9 @@ export const Ingredients = ({
 		let isMounted = true;
 		import("@/app/recipes/content/recipes").then((mod) => {
 			if (!isMounted) return;
-			setRecipeMap(new Map(mod.allRecipes.map((recipe) => [recipe.slug, recipe])));
+			setRecipeMap(
+				new Map(mod.allRecipes.map((recipe) => [recipe.slug, recipe])),
+			);
 		});
 
 		return () => {
@@ -77,11 +82,7 @@ export const Ingredients = ({
 	if (!recipeIngredients) return null;
 
 	const updateServingAmount = (amount: number) => {
-		if (amount < 1) {
-			handleUpdateRecipeServing(1);
-		} else {
-			handleUpdateRecipeServing(amount);
-		}
+		handleUpdateRecipeServing(Math.round(amount * 100) / 100);
 	};
 
 	const handleKeyDown = (
@@ -100,6 +101,9 @@ export const Ingredients = ({
 			? baseQuantity.round(3).toString()
 			: baseQuantity.toFraction(true);
 	};
+	const servingsDisplay = new Fraction(internalServings).simplify();
+	const servingsFraction = servingsDisplay.toFraction(true);
+	const servingsDecimal = servingsDisplay.round(3).toString();
 
 	return (
 		<div>
@@ -115,13 +119,16 @@ export const Ingredients = ({
 							transition={
 								prefersReducedMotion ? { duration: 0 } : morphTransition
 							}
-							className={cn(
-								"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent text-lg",
-								internalServings === servings &&
-									"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
-							)}
 						>
-							{internalServings}
+							<TextMorph
+								characterClassName={cn(
+									"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent text-lg",
+									internalServings === servings &&
+										"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+								)}
+							>
+								{units === "decimal" ? servingsDecimal : servingsFraction}
+							</TextMorph>
 						</motion.span>{" "}
 						<motion.span
 							layout={prefersReducedMotion ? false : "position"}
@@ -140,7 +147,7 @@ export const Ingredients = ({
 						<ButtonGroup className="relative group">
 							<button
 								className="relative btn flex justify-center h-7 w-9 items-center z-10 btn-outline px-1 py-0.5 rounded-sm cursor-pointer"
-								onClick={() => updateServingAmount(Math.floor(servings * 0.5))}
+								onClick={() => updateServingAmount(servings * 0.5)}
 								aria-label="Increase servings to double the original amount"
 							>
 								<span className="text-xs">½</span>
@@ -260,131 +267,149 @@ export const Ingredients = ({
 			<ul className="space-y-2">
 				{recipeIngredients.map(
 					({ name, quantity, unit, alternatives, recipeSlug }) => {
-					const unitDetails = unitMap.get(unit);
-					const adjustedQuantity =
-						Math.round(
-							Number(quantity * (internalServings / servings)) * 1000,
-						) / 1000;
-					const baseQuantity = new Fraction(adjustedQuantity).simplify();
-					const fraction = baseQuantity.toFraction(true);
-					const decimal = baseQuantity.round(3).toString();
-					const displayQuantity = units === "decimal" ? decimal : fraction;
-					const referencedRecipe =
-						recipeSlug && recipeMap ? recipeMap.get(recipeSlug) : undefined;
+						const unitDetails = unitMap.get(unit);
+						const adjustedQuantity =
+							Math.round(
+								Number(quantity * (internalServings / servings)) * 1000,
+							) / 1000;
+						const baseQuantity = new Fraction(adjustedQuantity).simplify();
+						const fraction = baseQuantity.toFraction(true);
+						const decimal = baseQuantity.round(3).toString();
+						const displayQuantity = units === "decimal" ? decimal : fraction;
+						const referencedRecipe =
+							recipeSlug && recipeMap ? recipeMap.get(recipeSlug) : undefined;
+						const unitlessIngredient = unitLessIngredients.some(
+							(u) => u.value === unit,
+						);
 
-					return (
-						<li
-							key={name}
-							className="lowercase list-none text-lg relative flex gap-2"
-						>
-							<span className="inline-block shrink-0">
-								<TextMorph
-									characterClassName={cn(
-										"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
-										internalServings === servings &&
-											"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
-									)}
-								>
-									{displayQuantity}
-								</TextMorph>
-							</span>{" "}
-							<motion.span
-								layout={prefersReducedMotion ? false : "position"}
-								layoutId={prefersReducedMotion ? undefined : `unit-${name}`}
-								className="inline-block"
-								transition={
-									prefersReducedMotion ? { duration: 0 } : morphTransition
-								}
+						return (
+							<li
+								key={name}
+								className="lowercase list-none text-lg relative flex gap-2"
 							>
-								{adjustedQuantity > 1 ? unitDetails?.plural : unitDetails?.name}{" "}
-								{referencedRecipe ? (
-									<Dialog>
-										<DialogTrigger asChild>
-											<button
-												type="button"
-												className="underline decoration-1 underline-offset-2 text-violet-800/80 hover:text-violet-900 dark:text-violet-300/80 dark:hover:text-violet-200 transition-colors"
-											>
-												{name}
-											</button>
-										</DialogTrigger>
-										<DialogContent>
-											<DialogHeader>
-												<DialogTitle>{referencedRecipe.title}</DialogTitle>
-												<DialogDescription>
-													Ingredient list
-												</DialogDescription>
-											</DialogHeader>
-											<ul className="list-disc list-inside space-y-1">
-												{referencedRecipe.ingredients.map((ingredient) => {
-													const scaledQuantity =
-														ingredient.quantity * (internalServings / servings);
-													const referencedUnit = unitMap.get(ingredient.unit);
-													const displayUnit =
-														ingredient.unit === ""
-															? ""
-															: scaledQuantity > 1
-																? referencedUnit?.plural
-																: referencedUnit?.name;
-													const displayQty = formatQuantity(scaledQuantity);
-
-													return (
-														<li key={ingredient.name}>
-															{displayQty}{" "}
-															{displayUnit ? `${displayUnit} ` : ""}
-															{ingredient.name}
-														</li>
-													);
-												})}
-											</ul>
-											<div className="space-y-2">
-												<h3 className="text-base font-semibold">Steps</h3>
-												<ol className="list-decimal list-inside space-y-1">
-													{referencedRecipe.steps.map((step, index) => (
-														<li key={`${referencedRecipe.slug}-step-${index}`}>
-															{step}
-														</li>
-													))}
-												</ol>
-											</div>
-											<div className="flex justify-end">
-												<Button asChild>
-													<Link
-														href={`/recipes/${referencedRecipe.category}/${referencedRecipe.slug}`}
-													>
-														View full recipe
-													</Link>
-												</Button>
-											</div>
-										</DialogContent>
-									</Dialog>
-								) : (
-									name
-								)}{" "}
-								{(alternatives?.length ?? 0) > 0 && (
-									<Popover>
-										<PopoverTrigger className="text-sm underline text-violet-800/70 dark:text-violet-400/70 hover:text-violet-800 dark:hover:text-violet-400">
-											alternatives
-										</PopoverTrigger>
-										<PopoverContent className="bg-none bg-transparent backdrop-blur-3xl p-2 btn-outline">
-											<PopoverHeader>
-												<PopoverTitle>Alternatives</PopoverTitle>
-												<PopoverDescription className="sr-only">
-													This is a list of alternatives for this ingredient.
-												</PopoverDescription>
-											</PopoverHeader>
-											<ul className="list-disc list-inside mt-4">
-												{alternatives?.map((alternative) => (
-													<li key={alternative}>{alternative}</li>
-												))}
-											</ul>
-										</PopoverContent>
-									</Popover>
+								{!unitlessIngredient && (
+									<span className="inline-block shrink-0">
+										<TextMorph
+											characterClassName={cn(
+												"font-semibold transition-colors font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
+												internalServings === servings &&
+													"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+											)}
+										>
+											{displayQuantity}
+										</TextMorph>{" "}
+									</span>
 								)}
-							</motion.span>
-							<span className="absolute right-full mr-3 flex size-1 bg-black/60 dark:bg-white/60 rounded-full top-3"></span>
-						</li>
-					);
-				})}
+								<motion.span
+									layout={prefersReducedMotion ? false : "position"}
+									layoutId={prefersReducedMotion ? undefined : `unit-${name}`}
+									className="inline-block"
+									transition={
+										prefersReducedMotion ? { duration: 0 } : morphTransition
+									}
+								>
+									{!unitlessIngredient
+										? adjustedQuantity > 1
+											? unitDetails?.plural
+											: unitDetails?.name
+										: null}{" "}
+									{referencedRecipe ? (
+										<Dialog>
+											<DialogTrigger asChild>
+												<button
+													type="button"
+													className="underline decoration-1 underline-offset-2 text-violet-800/80 hover:text-violet-900 dark:text-violet-300/80 dark:hover:text-violet-200 transition-colors"
+												>
+													{name}
+												</button>
+											</DialogTrigger>
+											<DialogContent>
+												<DialogHeader>
+													<DialogTitle>{referencedRecipe.title}</DialogTitle>
+													<DialogDescription>Ingredient list</DialogDescription>
+												</DialogHeader>
+												<ul className="list-disc list-inside space-y-1">
+													{referencedRecipe.ingredients.map((ingredient) => {
+														const scaledQuantity =
+															ingredient.quantity *
+															(internalServings / servings);
+														const referencedUnit = unitMap.get(ingredient.unit);
+														const displayUnit =
+															ingredient.unit === ""
+																? ""
+																: scaledQuantity > 1
+																	? referencedUnit?.plural
+																	: referencedUnit?.name;
+														const displayQty = formatQuantity(scaledQuantity);
+
+														return (
+															<li key={ingredient.name}>
+																{displayQty}{" "}
+																{displayUnit ? `${displayUnit} ` : ""}
+																{ingredient.name}
+															</li>
+														);
+													})}
+												</ul>
+												<div className="space-y-2">
+													<h3 className="text-base font-semibold">Steps</h3>
+													<ol className="list-decimal list-inside space-y-1">
+														{referencedRecipe.steps.map((step, index) => (
+															<li
+																key={`${referencedRecipe.slug}-step-${index}`}
+															>
+																{step}
+															</li>
+														))}
+													</ol>
+												</div>
+												<div className="flex justify-end">
+													<Button asChild>
+														<Link
+															href={`/recipes/${referencedRecipe.category}/${referencedRecipe.slug}`}
+														>
+															View full recipe
+														</Link>
+													</Button>
+												</div>
+											</DialogContent>
+										</Dialog>
+									) : (
+										name
+									)}{" "}
+									{(alternatives?.length ?? 0) > 0 && (
+										<Popover>
+											<PopoverTrigger className="text-sm underline text-violet-800/70 dark:text-violet-400/70 hover:text-violet-800 dark:hover:text-violet-400">
+												alternatives
+											</PopoverTrigger>
+											<PopoverContent className="bg-none bg-transparent backdrop-blur-3xl p-2 btn-outline">
+												<PopoverHeader>
+													<PopoverTitle>Alternatives</PopoverTitle>
+													<PopoverDescription className="sr-only">
+														This is a list of alternatives for this ingredient.
+													</PopoverDescription>
+												</PopoverHeader>
+												<ul className="list-disc list-inside mt-4">
+													{alternatives?.map((alternative) => (
+														<li key={alternative}>{alternative}</li>
+													))}
+												</ul>
+											</PopoverContent>
+										</Popover>
+									)}
+								</motion.span>
+								{unitlessIngredient && (
+									<span>
+										{adjustedQuantity > 1
+											? unitDetails?.plural
+											: unitDetails?.name}
+									</span>
+								)}
+								<span className="absolute right-full mr-3 flex size-1 bg-black/60 dark:bg-white/60 rounded-full top-3"></span>
+							</li>
+						);
+					},
+				)}
 			</ul>
 		</div>
 	);

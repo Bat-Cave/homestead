@@ -1,24 +1,19 @@
 import type { Recipe } from "../types";
 
 const slug = "stir-fry-sauce";
-const servings = 4;
+const servings = 8;
 const servingUnits: [string, string] = ["serving", "servings"];
 
 const ingredients: Recipe["ingredients"] = [
-	{ name: "low-sodium soy sauce", quantity: 0.5, unit: "cup" },
-	{
-		name: "low-sodium vegetable stock",
-		quantity: 0.5,
-		unit: "cup",
-		alternatives: ["water"],
-	},
+	{ name: "soy sauce", quantity: 0.5, unit: "cup" },
+	{ name: "chicken stock", quantity: 0.333, unit: "cup" },
 	{ name: "sesame oil", quantity: 1, unit: "tsp" },
-	{ name: "rice vinegar", quantity: 0.5, unit: "tbsp" },
-	{ name: "garlic, minced", quantity: 2, unit: "clove" },
-	{ name: "fresh ginger, grated", quantity: 1.5, unit: "tsp" },
-	{ name: "sugar", quantity: 1, unit: "tbsp", alternatives: ["honey"] },
-	{ name: "cornstarch", quantity: 1, unit: "tbsp" },
-	{ name: "red pepper flakes (optional)", quantity: 1, unit: "pinch" },
+	{ name: "rice vinegar", quantity: 2, unit: "tsp" },
+	{ name: "Worcestershire sauce", quantity: 1, unit: "tsp" },
+	{ name: "garlic, minced", quantity: 3, unit: "clove" },
+	{ name: "ginger, minced", quantity: 1, unit: "tsp" },
+	{ name: "brown sugar", quantity: 2, unit: "tbsp" },
+	{ name: "red pepper flakes", quantity: 0.5, unit: "tsp" },
 ];
 
 export const recipe: Recipe = {
@@ -27,16 +22,17 @@ export const recipe: Recipe = {
 	publishedAt: "2026-02-12T18:00:00.000Z",
 	category: "drinks-sauces",
 	revisedFrom: undefined,
-	sourceUrl: "https://www.forkinthekitchen.com/stir-fry-sauce-recipe/",
-	acknowledgments: ["Fork in the Kitchen"],
+	sourceUrl: "https://abeautifulmess.com/stir-fry-sauce/",
+	acknowledgments: ["A Beautiful Mess"],
 	servings,
 	servingUnits,
 	ingredients,
 	prepTime: 5,
 	cookTime: undefined,
 	steps: [
-		"Whisk or shake all ingredients together until fully combined.",
-		"Use immediately in a stir fry and simmer until thickened.",
-		"Store in an airtight container in the refrigerator for up to 1 week.",
+		"Combine all ingredients in a small bowl.",
+		"Whisk until the sugar dissolves (or shake in a jar with a lid).",
+		"Pour over your stir fry while cooking.",
+		"Store any unused sauce in an airtight container in the refrigerator for up to 1 week.",
 	],
 };

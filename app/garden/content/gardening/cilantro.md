@@ -1,7 +1,6 @@
 ---
 title: "Cilantro: Harvesting and Storing"
 description: "How to harvest, store, and preserve cilantro for freshness and long-term use."
-category: "gardening"
 tags: ["cilantro", "harvesting", "storage", "freezing", "herbs"]
 ---
 

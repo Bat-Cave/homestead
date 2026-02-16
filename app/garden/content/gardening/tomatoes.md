@@ -1,7 +1,6 @@
 ---
 title: "Tomatoes: Harvesting and Storing"
 description: "Guide to harvesting, storing, and preserving tomatoes for maximum flavor and shelf life."
-category: "gardening"
 tags: ["tomatoes", "harvesting", "storage", "freezing", "pickling", "vegetables"]
 ---
 

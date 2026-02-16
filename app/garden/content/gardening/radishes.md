@@ -1,7 +1,6 @@
 ---
 title: "Radishes: Harvesting and Storing"
 description: "How to keep radishes crisp with proper storage, water method, pickling, and fermentation."
-category: "gardening"
 tags: ["radishes", "harvesting", "storage", "pickling", "fermentation", "vegetables"]
 ---
 

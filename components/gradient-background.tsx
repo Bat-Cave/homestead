@@ -2,8 +2,8 @@
 
 import {
 	animate,
-	motion,
 	type MotionStyle,
+	motion,
 	useMotionValue,
 	type ValueAnimationTransition,
 } from "motion/react";

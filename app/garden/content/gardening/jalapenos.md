@@ -1,7 +1,6 @@
 ---
 title: "Jalapenos: Harvesting and Storing"
 description: "Guide to harvesting, storing, and preserving jalapenos for maximum flavor and shelf life."
-category: "gardening"
 tags: ["jalapenos", "harvesting", "storage", "freezing", "pickling", "vegetables"]
 ---
 

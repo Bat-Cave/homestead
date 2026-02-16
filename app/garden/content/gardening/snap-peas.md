@@ -1,7 +1,6 @@
 ---
 title: "Snap Peas: Harvesting and Preserving"
 description: "How to harvest, store, and freeze snap peas for maximum flavor and texture."
-category: "gardening"
 tags: ["snap peas", "harvesting", "storage", "freezing", "blanching", "vegetables"]
 ---
 

@@ -1,8 +1,5 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { categories } from "./[category]/categories";
-import { categoryBackgrounds, getGuides } from "./utils";
 
 export const metadata = {
 	robots: {
@@ -12,9 +9,7 @@ export const metadata = {
 	},
 };
 
-export default function GuidesPage() {
-	const guides = getGuides();
-
+export default function GardenPage() {
 	return (
 		<section className="max-w-xl mx-auto w-full">
 			<Link href="/" className="flex items-center gap-2 hover:underline mb-4">
@@ -27,41 +22,32 @@ export default function GuidesPage() {
 				</span>
 			</Link>
 			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 mb-8">
-				Guide Categories
+				Garden Categories
 			</h1>
-			<ul className="space-y-4">
-				{[...categories]
-					.sort((a, b) => a.name.localeCompare(b.name))
-					.map((category) => {
-						const guideCount = guides.filter(
-							(guide) => guide.category === category.slug,
-						).length;
-						if (guideCount === 0) return null;
-						return (
-							<li key={category.slug} className="flex flex-col items-start">
-								<Link
-									href={`/guides/${category.slug}`}
-									className="text-xl font-medium flex items-center gap-4 group"
-								>
-									<span className="inline-flex size-8 rounded-full overflow-hidden items-center justify-center">
-										<span
-											className={cn(
-												"size-full flex",
-												categoryBackgrounds[category.slug],
-											)}
-										/>
-									</span>
-									<span className="group-hover:underline">
-										{category.name}{" "}
-									</span>
-									<span className="text-sm text-neutral-800 dark:text-neutral-300 ml-2">
-										{`${guideCount} guide${guideCount === 1 ? "" : "s"}`}
-									</span>
-								</Link>
-							</li>
-						);
-					})}
-			</ul>
+			<p>
+				I started a garden in some raised beds in the backyard of the house we
+				are renting in Tucson. I first started with onions, carrots, and
+				cilantro. Then I added some radishes, snap peas, and broccoli. That
+				filled out one of the beds. Then my brother and I planeted tomatoes and
+				jalepenos in the other raised bed, and some time after that, I added
+				watermelon, cantaloupe, beets, more carrots, bell peppers, mint, and
+				catnip. We also have an apricot tree!
+			</p>
+
+			<p className="my-4">
+				I&apos;ve had fun learning new things about gardening and the various
+				plants I&apos;ve been growing. I&apos;ve been documenting the garden
+				progress through snap chats sent to my family. I&apos;ve made some of
+				those videos available as a vlog here.{" "}
+			</p>
+			<div className="mt-8 flex flex-wrap gap-3">
+				<Link href="/garden/guides" className="btn btn-solid">
+					Garden Guides
+				</Link>
+				<Link href="/garden/vlog" className="btn btn-solid-secondary">
+					Garden Vlog
+				</Link>
+			</div>
 		</section>
 	);
 }

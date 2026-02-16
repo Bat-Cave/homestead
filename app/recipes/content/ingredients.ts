@@ -37,3 +37,8 @@ export const unitDefinitions: UnitDefinition[] = [
 	{ name: "To Taste", value: "to taste", plural: "To Taste" },
 	{ name: "As Needed", value: "as needed", plural: "As Needed" },
 ];
+
+export const unitLessIngredients = [
+	{ name: "To Taste", value: "to taste", plural: "To Taste" },
+	{ name: "As Needed", value: "as needed", plural: "As Needed" },
+];

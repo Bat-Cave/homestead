@@ -1,7 +1,6 @@
 ---
 title: "Onions: Harvesting and Storing"
 description: "Guide to harvesting, curing, storing, and freezing onions for maximum shelf life."
-category: "gardening"
 tags: ["onions", "harvesting", "curing", "storage", "freezing", "vegetables"]
 ---
 
