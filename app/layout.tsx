@@ -9,9 +9,9 @@ import { cn } from "../lib/utils";
 import { Providers } from "./providers";
 
 export const metadata: Metadata = {
-	title: "Recipes | Rico Hancock",
+	title: "Homestead | Rico Hancock",
 	description:
-		"Favorite recipes from loved family members. I wanted to make these recipes digital so that I could easily access them and revise them when needed.",
+		"I've been doing a lot of homesteading stuff lately. From working out in the garden to learning new recipes, there are things I'm learning that I want to keep somewhere I can easily access and update as I go. This is that place. If you've found it, I hope you find it as useful as I do.",
 	icons: {
 		icon: [
 			{
@@ -27,10 +27,10 @@ export const metadata: Metadata = {
 		],
 	},
 	openGraph: {
-		title: "Recipes | Rico Hancock",
+		title: "Homestead | Rico Hancock",
 		description:
-			"Favorite recipes from loved family members. I wanted to make these recipes digital so that I could easily access them and revise them when needed.",
-		siteName: "Recipes | Rico Hancock",
+			"I've been doing a lot of homesteading stuff lately. From working out in the garden to learning new recipes, there are things I'm learning that I want to keep somewhere I can easily access and update as I go. This is that place. If you've found it, I hope you find it as useful as I do.",
+		siteName: "Homestead | Rico Hancock",
 		locale: "en_US",
 		type: "website",
 	},
