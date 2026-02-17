@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { categories } from "./[category]/categories";
 import { formatDate, getRecipes } from "./utils";
 
 export const metadata = {
@@ -51,18 +52,21 @@ export default function Home() {
 				</h2>
 				<ul className="space-y-3">
 					{latestRecipes.map((recipe) => (
-						<li key={recipe.slug} className="flex items-center gap-2">
+						<li key={recipe.slug} className="flex items-center">
 							<Link
 								href={`/recipes/${recipe.category}/${recipe.slug}`}
-								className="group inline-flex items-center gap-2"
+								className="group inline-flex items-center gap-1"
 							>
 								<span className="text-lg font-medium group-hover:underline">
 									{recipe.title}
 								</span>
+								<span className="text-sm text-neutral-700 dark:text-neutral-300">
+									{" • "}
+									{categories.find((c) => c.slug === recipe.category)?.name}
+									{" • "}
+									{formatDate(recipe.publishedAt)}
+								</span>
 							</Link>
-							<p className="text-sm text-neutral-700 dark:text-neutral-300">
-								{formatDate(recipe.publishedAt)}
-							</p>
 						</li>
 					))}
 				</ul>

@@ -1,7 +1,7 @@
 "use client";
 
 import Fraction from "fraction.js";
-import { X } from "lucide-react";
+import { Ellipsis, Equal, X } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -82,7 +82,7 @@ export const Ingredients = ({
 	if (!recipeIngredients) return null;
 
 	const updateServingAmount = (amount: number) => {
-		handleUpdateRecipeServing(Math.round(amount * 100) / 100);
+		handleUpdateRecipeServing(Math.max(1, Math.round(amount * 100) / 100));
 	};
 
 	const handleKeyDown = (
@@ -177,12 +177,14 @@ export const Ingredients = ({
 									style={{
 										width: `${
 											internalServings === servings * 3
-												? 100 - 25 / 2
+												? 80 - 20 / 2
 												: internalServings === servings * 2
-													? 75 - 25 / 2
+													? 60 - 20 / 2
 													: internalServings === servings
-														? 50 - 25 / 2
-														: 25 / 2
+														? 40 - 20 / 2
+														: internalServings === servings / 2
+															? 20 / 2
+															: 100 - 20 / 2
 										}%`,
 									}}
 								>
@@ -193,11 +195,118 @@ export const Ingredients = ({
 							<button
 								className="relative btn flex justify-center h-7 w-9 items-center z-10 btn-outline px-1 py-0.5 rounded-sm cursor-pointer"
 								onClick={() => updateServingAmount(servings * 3)}
-								aria-label="Increase servings to double the original amount"
+								aria-label="Increase servings to triple the original amount"
 							>
 								<span className="text-xs">3</span>
 								<X className="size-3" />
 							</button>
+							<Popover>
+								<PopoverTrigger asChild>
+									<button
+										className="relative btn flex justify-center h-7 w-9 items-center z-10 btn-outline px-1 py-0.5 rounded-sm cursor-pointer"
+										aria-label="More Serving Size Options"
+									>
+										<span className="text-xs sr-only">
+											More Serving Size Options
+										</span>
+										<Ellipsis className="size-3" />
+									</button>
+								</PopoverTrigger>
+								<PopoverContent
+									sideOffset={8}
+									align="end"
+									className="btn-outline min-w-72 max-w-96 w-auto backdrop-blur-2xl bg-transparent from-transparent to-transparent via-transparent"
+								>
+									<PopoverHeader>
+										<div className="flex items-center w-full gap-2 justify-between">
+											<PopoverTitle className="text-xl font-semibold w-full">
+												Serving Size
+											</PopoverTitle>
+											<div className="flex items-center gap-2">
+												<button
+													className="btn-outline btn"
+													onClick={() =>
+														updateServingAmount(
+															Math.round(internalServings) - 1,
+														)
+													}
+												>
+													-1
+												</button>
+												<button
+													className="btn-outline btn"
+													onClick={() =>
+														updateServingAmount(
+															Math.round(internalServings) + 1,
+														)
+													}
+												>
+													+1
+												</button>
+											</div>
+										</div>
+										<PopoverDescription className="sr-only">
+											Fine tune the serving size for this recipe.
+										</PopoverDescription>
+									</PopoverHeader>
+									<div className="flex items-center w-full flex-wrap gap-2 mt-4 justify-center overflow-hidden">
+										<div
+											className={cn(
+												"flex items-center gap-2 text-4xl font-semibold font-mono bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent opacity-50 hover:opacity-100 transition-all duration-500 delay-100",
+												internalServings === servings &&
+													"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+											)}
+										>
+											<span className="flex flex-col items-center">
+												<span className="text-xs uppercase">Original</span>
+												<span>{servings}</span>
+											</span>
+											<span>
+												<X className="size-6 text-foreground mt-4" />
+											</span>
+											<span className="flex flex-col items-center">
+												<span className="text-xs uppercase">Multiplier</span>
+												<TextMorph
+													characterClassName={cn(
+														"font-semibold transition-colors font-mono text-4xl bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
+														internalServings === servings &&
+															"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+													)}
+												>
+													{(internalServings / servings).toString()}
+												</TextMorph>
+											</span>
+											<span>
+												<Equal className="size-6 text-foreground mt-4" />
+											</span>
+										</div>
+										<motion.span
+											layout={prefersReducedMotion ? false : "position"}
+											layoutId={
+												prefersReducedMotion
+													? undefined
+													: `servings-${slug}-number-popover`
+											}
+											transition={
+												prefersReducedMotion ? { duration: 0 } : morphTransition
+											}
+											className="shrink-0"
+										>
+											<TextMorph
+												characterClassName={cn(
+													"font-semibold transition-colors font-mono text-6xl bg-linear-to-b from-indigo-500 dark:from-indigo-50 to-indigo-900 dark:to-indigo-400 bg-clip-text text-transparent",
+													internalServings === servings &&
+														"from-violet-500 dark:from-violet-50 to-violet-900 dark:to-violet-400",
+												)}
+											>
+												{units === "decimal"
+													? servingsDecimal
+													: servingsFraction}
+											</TextMorph>
+										</motion.span>
+									</div>
+								</PopoverContent>
+							</Popover>
 						</ButtonGroup>
 						<ButtonGroup className="relative group">
 							<button

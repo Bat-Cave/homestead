@@ -28,8 +28,8 @@ export default function GardenPage() {
 				I started a garden in some raised beds in the backyard of the house we
 				are renting in Tucson. I first started with onions, carrots, and
 				cilantro. Then I added some radishes, snap peas, and broccoli. That
-				filled out one of the beds. Then my brother and I planeted tomatoes and
-				jalepenos in the other raised bed, and some time after that, I added
+				filled out one of the beds. Then my brother and I planted tomatoes and
+				jalepenos in the other raised bed. Some time after that, I added
 				watermelon, cantaloupe, beets, more carrots, bell peppers, mint, and
 				catnip. We also have an apricot tree!
 			</p>
