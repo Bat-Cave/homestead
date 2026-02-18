@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { categories } from "./[category]/categories";
 import { formatDate, getRecipes } from "./utils";

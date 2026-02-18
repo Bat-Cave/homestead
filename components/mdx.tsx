@@ -45,9 +45,6 @@ function CustomLink(props: {
 		);
 	}
 
-	const url = new URL(href ?? "");
-	const { host, pathname } = url;
-
 	//   if (host.includes('twitter') && pathname.includes('/status/')) {
 	//     const splitPath = pathname.split('/');
 	//     const tweetId = splitPath[splitPath.length - 1];
@@ -136,7 +133,7 @@ function createHeading(level: number) {
 	return Heading;
 }
 
-const components: Record<string, (props: any) => any> = {
+const components = {
 	h1: createHeading(1),
 	h2: createHeading(2),
 	h3: createHeading(3),
@@ -167,7 +164,7 @@ const components: Record<string, (props: any) => any> = {
 	pre: (props) => {
 		return <div className="mt-4 mb-8 p-0" {...props} />;
 	},
-};
+} as Record<string, (props: Record<string, unknown>) => ReactNode>;
 
 export function CustomMDX(props: ComponentProps<typeof MDXRemote>) {
 	return (
@@ -178,7 +175,6 @@ export function CustomMDX(props: ComponentProps<typeof MDXRemote>) {
 					// remarkPlugins: [remarkPrism],
 				},
 			}}
-			// eslint-disable-next-line @typescript-eslint/no-misused-spread
 			components={{ ...components, ...(props.components ?? {}) }}
 		/>
 	);

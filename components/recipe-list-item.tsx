@@ -4,7 +4,6 @@ import { Checkbox } from "./ui/checkbox";
 
 export function RecipeListItem({
 	children,
-	...props
 }: {
 	children: React.ReactNode;
 }) {

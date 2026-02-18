@@ -78,8 +78,8 @@ export default async function RecipePage({
 				/>
 				<h2>Directions</h2>
 				<ol className="list-decimal list-inside pl-10!">
-					{recipe.steps.map((step, i) => (
-						<RecipeListItem key={i}>{step}</RecipeListItem>
+					{recipe.steps.map((step) => (
+						<RecipeListItem key={`${recipe.slug}-${step}`}>{step}</RecipeListItem>
 					))}
 				</ol>
 			</article>

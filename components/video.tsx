@@ -4,21 +4,10 @@ import { cn } from "@/lib/utils";
 
 export default function Video({
 	className,
-	accentColor = "#a684ff",
 	...props
 }: ComponentProps<typeof MuxPlayer>) {
 	return (
 		<div className={cn("w-full h-auto rounded overflow-hidden my-2")}>
-			<style
-				dangerouslySetInnerHTML={{
-					__html: `
-						mux-player {
-							--media-object-fit: cover;
-							--media-object-position: center;
-						}
-					`,
-				}}
-			/>
 			<video
 				src={`https://stream.mux.com/${props.playbackId}.m3u8`}
 				className={cn(

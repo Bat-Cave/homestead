@@ -21,7 +21,7 @@ export function useTimer(
 	options?: UseTimerOptions,
 ): UseTimerReturn {
 	const interval = options?.interval ?? 1000;
-	const onTimerEnd = options?.onTimerEnd ?? (() => {});
+	const onTimerEnd = options?.onTimerEnd;
 
 	const [timeLeft, setTimeLeft] = useState(duration);
 	const [status, setStatus] = useState<TimerStatus>("stopped");
@@ -50,7 +50,7 @@ export function useTimer(
 		if (remaining === 1000) {
 			clearTimer();
 			setStatus("stopped");
-			onTimerEnd();
+			onTimerEnd?.();
 		}
 	}, [duration, clearTimer, onTimerEnd]);
 
@@ -78,10 +78,6 @@ export function useTimer(
 	const reset = () => {
 		clearTimer();
 	};
-
-	useEffect(() => {
-		setTimeLeft(duration);
-	}, [duration]);
 
 	useEffect(() => {
 		return clearTimer;

@@ -1,6 +1,13 @@
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getGardenEntries } from "../utils";
+
+export const metadata: Metadata = {
+	title: "Garden Guides",
+	description:
+		"Practical garden guides with notes from planting, growing, and harvesting.",
+};
 
 export default function GardenGuidesPage() {
 	const entries = [...getGardenEntries()].sort((a, b) =>

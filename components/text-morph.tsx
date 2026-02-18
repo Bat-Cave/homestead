@@ -1,5 +1,12 @@
 "use client";
-import { AnimatePresence, motion, Transition, Variants } from "motion/react";
+import {
+	AnimatePresence,
+	LazyMotion,
+	Transition,
+	Variants,
+	domAnimation,
+	m,
+} from "motion/react";
 import { useId, useMemo } from "react";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
@@ -73,24 +80,26 @@ export function TextMorph({
 	}
 
 	return (
-		<Component className={cn(className)} aria-label={children} style={style}>
-			<AnimatePresence mode="popLayout" initial={false}>
-				{characters.map((character) => (
-					<motion.span
-						key={character.id}
-						layoutId={character.id}
-						className={cn("inline-block", characterClassName)}
-						aria-hidden="true"
-						initial="initial"
-						animate="animate"
-						exit="exit"
-						variants={variants || defaultVariants}
-						transition={transition || morphTransition}
-					>
-						{character.label}
-					</motion.span>
-				))}
-			</AnimatePresence>
-		</Component>
+		<LazyMotion features={domAnimation}>
+			<Component className={cn(className)} aria-label={children} style={style}>
+				<AnimatePresence mode="popLayout" initial={false}>
+					{characters.map((character) => (
+						<m.span
+							key={character.id}
+							layoutId={character.id}
+							className={cn("inline-block", characterClassName)}
+							aria-hidden="true"
+							initial="initial"
+							animate="animate"
+							exit="exit"
+							variants={variants || defaultVariants}
+							transition={transition || morphTransition}
+						>
+							{character.label}
+						</m.span>
+					))}
+				</AnimatePresence>
+			</Component>
+		</LazyMotion>
 	);
 }

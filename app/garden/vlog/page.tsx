@@ -1,8 +1,15 @@
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { formatDate } from "@/app/recipes/utils";
 import Video from "@/components/video";
 import { gardenUpdateFiles } from "./garden-update-files";
+
+export const metadata: Metadata = {
+	title: "Garden Vlog",
+	description:
+		"Video updates from the garden showing seasonal progress and growing experiments.",
+};
 
 export default function GardenVlogPage() {
 	const sortedGardenUpdateFiles = [...gardenUpdateFiles].sort(
