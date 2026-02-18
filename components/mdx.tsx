@@ -1,3 +1,4 @@
+import { MDXComponents } from "mdx/types";
 import Image from "next/image";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -133,7 +134,7 @@ function createHeading(level: number) {
 	return Heading;
 }
 
-const components = {
+const components: MDXComponents = {
 	h1: createHeading(1),
 	h2: createHeading(2),
 	h3: createHeading(3),
@@ -164,7 +165,7 @@ const components = {
 	pre: (props) => {
 		return <div className="mt-4 mb-8 p-0" {...props} />;
 	},
-} as Record<string, (props: Record<string, unknown>) => ReactNode>;
+};
 
 export function CustomMDX(props: ComponentProps<typeof MDXRemote>) {
 	return (
