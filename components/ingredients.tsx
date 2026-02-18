@@ -421,7 +421,7 @@ export const Ingredients = ({
 									<m.span
 										layout={prefersReducedMotion ? false : "position"}
 										layoutId={prefersReducedMotion ? undefined : `unit-${name}`}
-										className="inline-block"
+										className="inline text-pretty wrap-break-word"
 										transition={
 											prefersReducedMotion ? { duration: 0 } : morphTransition
 										}
@@ -589,7 +589,7 @@ export const ReactiveIngredient = ({
 				</TextMorph>{" "}
 				<m.span
 					layout={prefersReducedMotion ? false : "position"}
-					className="inline-block"
+					className="inline text-pretty wrap-break-word"
 					transition={prefersReducedMotion ? { duration: 0 } : morphTransition}
 				>
 					{adjustedQuantity > 1 ? unitDetails?.plural : unitDetails?.name}{" "}
