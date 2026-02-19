@@ -214,12 +214,27 @@ export const RecipeTime = ({
 												}}
 												className="w-full flex flex-col opacity-50"
 											>
-												<RecipeTimeRange
-													range={range}
-													initialValue={initialTime}
-													setSliderValue={setSliderValue}
-													setInternalTime={setInternalTime}
-													setCompleted={setCompleted}
+												<div className="w-full flex justify-between gap-2 my-2">
+													<p className="text-2xl font-bold">
+														{formatSeconds(range[0] * 60)}
+													</p>
+													<p className="text-2xl font-bold">
+														{formatSeconds(range[1] * 60)}
+													</p>
+												</div>
+												<Slider
+													defaultValue={[initialTime]}
+													onValueChange={(value) => {
+														setSliderValue(value[0]);
+														setCompleted(false);
+													}}
+													onValueCommit={(value) => {
+														setInternalTime(value[0]);
+													}}
+													min={range[0]}
+													max={range[1]}
+													step={0.5}
+													className="w-full mb-8"
 												/>
 											</m.div>
 										)}
@@ -262,42 +277,5 @@ export const RecipeTime = ({
 				</SheetContent>
 			</Sheet>
 		</LazyMotion>
-	);
-};
-
-export const RecipeTimeRange = ({
-	range,
-	initialValue,
-	setSliderValue,
-	setInternalTime,
-	setCompleted,
-}: {
-	range: [number, number];
-	initialValue: number;
-	setSliderValue: (value: number) => void;
-	setInternalTime: (value: number) => void;
-	setCompleted: (value: boolean) => void;
-}) => {
-	return (
-		<div>
-			<div className="w-full flex justify-between gap-2 my-2">
-				<p className="text-2xl font-bold">{formatSeconds(range[0] * 60)}</p>
-				<p className="text-2xl font-bold">{formatSeconds(range[1] * 60)}</p>
-			</div>
-			<Slider
-				defaultValue={[initialValue]}
-				onValueChange={(value) => {
-					setSliderValue(value[0]);
-					setCompleted(false);
-				}}
-				onValueCommit={(value) => {
-					setInternalTime(value[0]);
-				}}
-				min={range[0]}
-				max={range[1]}
-				step={0.5}
-				className="w-full mb-8"
-			/>
-		</div>
 	);
 };
