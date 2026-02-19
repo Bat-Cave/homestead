@@ -16,7 +16,7 @@ const ingredients: Recipe["ingredients"] = [
 	{ name: "vanilla extract", quantity: 1, unit: "tsp" },
 	{ name: "all-purpose flour", quantity: 0.75, unit: "cup" },
 	{ name: "unsweetened cocoa powder", quantity: 0.25, unit: "cup" },
-	{ name: "salt", quantity: 0.25, unit: "tsp" },
+	{ name: "fine sea salt", quantity: 0.25, unit: "tsp" },
 	{ name: "semisweet chocolate chips (optional)", quantity: 1, unit: "cup" },
 ];
 
@@ -34,11 +34,11 @@ export const recipe: Recipe = {
 	cookTime: "25-30",
 	steps: [
 		<>
-			Preheat oven to <RecipeTemperature temperature={350} />. Line an 8-inch
-			square pan.
+			Preheat oven to <RecipeTemperature temperature={350} />. Line a metal
+			8-inch square pan with parchment paper.
 		</>,
 		<>
-			Melt{" "}
+			In a large microwave-safe bowl, combine{" "}
 			<ReactiveIngredient
 				slug={slug}
 				ingredientIndex={1}
@@ -52,18 +52,48 @@ export const recipe: Recipe = {
 				servings={servings}
 				ingredients={ingredients}
 			/>{" "}
-			together, then stir in{" "}
+			. Microwave in 30-second bursts, stirring between each burst, until
+			melted and smooth. Add{" "}
 			<ReactiveIngredient
 				slug={slug}
 				ingredientIndex={2}
 				servings={servings}
 				ingredients={ingredients}
 			/>{" "}
-			until smooth.
+			to the hot butter mixture and whisk vigorously until combined. Allow to
+			cool until just barely warm.
 		</>,
-		"Cool slightly, then whisk in eggs, egg yolk, and vanilla.",
 		<>
-			Fold in{" "}
+			Add{" "}
+			<ReactiveIngredient
+				slug={slug}
+				ingredientIndex={3}
+				servings={servings}
+				ingredients={ingredients}
+			/>
+			,{" "}
+			<ReactiveIngredient
+				slug={slug}
+				ingredientIndex={4}
+				servings={servings}
+				ingredients={ingredients}
+			/>
+			, and{" "}
+			<ReactiveIngredient
+				slug={slug}
+				ingredientIndex={5}
+				servings={servings}
+				ingredients={ingredients}
+			/>
+			, then whisk for about{" "}
+			<RecipeTime
+				time={1}
+				step={{ number: "3", name: "Whisk eggs and vanilla for 1 minute." }}
+			/>{" "}
+			until very well combined.
+		</>,
+		<>
+			Use a rubber spatula to stir in{" "}
 			<ReactiveIngredient
 				slug={slug}
 				ingredientIndex={6}
@@ -84,17 +114,31 @@ export const recipe: Recipe = {
 				servings={servings}
 				ingredients={ingredients}
 			/>
-			. Fold in chocolate chips if using.
+			until just combined. Stir in{" "}
+			<ReactiveIngredient
+				slug={slug}
+				ingredientIndex={9}
+				servings={servings}
+				ingredients={ingredients}
+			/>
+			.
 		</>,
 		<>
-			Bake for{" "}
+			Pour into the prepared pan and smooth out. Bake for{" "}
 			<RecipeTime
 				time={undefined}
 				step={{ number: "5", name: "Bake for 25 to 30 minutes." }}
 				range={[25, 30]}
 			/>{" "}
-			until moist crumbs form.
+			until a toothpick in the center comes out with moist crumbs.
 		</>,
-		"Cool fully before slicing.",
+		<>
+			Let cool in pan for{" "}
+			<RecipeTime
+				time={30}
+				step={{ number: "6", name: "Cool in pan for 30 minutes." }}
+			/>{" "}
+			before slicing.
+		</>,
 	],
 };

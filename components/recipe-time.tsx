@@ -2,7 +2,7 @@
 
 import { Check, CircleCheck, Timer } from "lucide-react";
 import { AnimatePresence, domAnimation, LazyMotion, m } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import {
 	Sheet,
 	SheetContent,
@@ -40,14 +40,6 @@ export const RecipeTime = ({
 	const [internalTime, setInternalTime] = useState(initialTime);
 	const [sliderValue, setSliderValue] = useState(initialTime);
 	const [completed, setCompleted] = useState(false);
-	const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-	useEffect(
-		() => () => {
-			if (debounceRef.current) clearTimeout(debounceRef.current);
-		},
-		[],
-	);
 	const { timeLeft, status, start, pause, reset } = useTimer(
 		internalTime * 60 * 1000,
 		{
@@ -57,15 +49,6 @@ export const RecipeTime = ({
 			},
 		},
 	);
-	const debouncedSetInternalTime = useCallback((value: number) => {
-		if (debounceRef.current) clearTimeout(debounceRef.current);
-		debounceRef.current = setTimeout(() => {
-			setInternalTime(value);
-			setCompleted(false);
-			debounceRef.current = null;
-		}, 200);
-	}, []);
-
 	const getTimeString = useCallback((time: number, numberOnly = false) => {
 		const totalSeconds = Math.floor(time * 60);
 		const hours = Math.floor(totalSeconds / 3600);
@@ -210,7 +193,13 @@ export const RecipeTime = ({
 												: "text-white",
 										)}
 									>
-										{formatSeconds(Math.floor(timeLeft / 1000))}
+										{formatSeconds(
+											Math.floor(
+												range && status === "stopped"
+													? sliderValue * 60
+													: timeLeft / 1000,
+											),
+										)}
 									</TextMorph>
 									<AnimatePresence>
 										{range && status === "stopped" && (
@@ -225,26 +214,12 @@ export const RecipeTime = ({
 												}}
 												className="w-full flex flex-col opacity-50"
 											>
-												<div className="w-full flex justify-between gap-2 my-2">
-													<p className="text-2xl font-bold">
-														{formatSeconds(range[0] * 60)}
-													</p>
-													<p className="text-2xl font-bold">
-														{formatSeconds(range[1] * 60)}
-													</p>
-												</div>
-												<Slider
-													value={[sliderValue]}
-													onValueChange={(value) => {
-														setSliderValue(value[0]);
-														debouncedSetInternalTime(value[0]);
-													}}
-													onMouseDown={(e) => e.stopPropagation()}
-													onMouseMove={(e) => e.stopPropagation()}
-													min={range[0]}
-													max={range[1]}
-													step={1}
-													className="w-full mb-8"
+												<RecipeTimeRange
+													range={range}
+													sliderValue={sliderValue}
+													setSliderValue={setSliderValue}
+													setInternalTime={setInternalTime}
+													setCompleted={setCompleted}
 												/>
 											</m.div>
 										)}
@@ -274,7 +249,7 @@ export const RecipeTime = ({
 												reset();
 												setCompleted(false);
 												setSliderValue(initialTime);
-												debouncedSetInternalTime(initialTime);
+												setInternalTime(initialTime);
 											}}
 										>
 											Reset
@@ -287,5 +262,42 @@ export const RecipeTime = ({
 				</SheetContent>
 			</Sheet>
 		</LazyMotion>
+	);
+};
+
+export const RecipeTimeRange = ({
+	range,
+	sliderValue,
+	setSliderValue,
+	setInternalTime,
+	setCompleted,
+}: {
+	range: [number, number];
+	sliderValue: number;
+	setSliderValue: (value: number) => void;
+	setInternalTime: (value: number) => void;
+	setCompleted: (value: boolean) => void;
+}) => {
+	return (
+		<div>
+			<div className="w-full flex justify-between gap-2 my-2">
+				<p className="text-2xl font-bold">{formatSeconds(range[0] * 60)}</p>
+				<p className="text-2xl font-bold">{formatSeconds(range[1] * 60)}</p>
+			</div>
+			<Slider
+				value={[sliderValue]}
+				onValueChange={(value) => {
+					setSliderValue(value[0]);
+					setCompleted(false);
+				}}
+				onValueCommit={(value) => {
+					setInternalTime(value[0]);
+				}}
+				min={range[0]}
+				max={range[1]}
+				step={1}
+				className="w-full mb-8"
+			/>
+		</div>
 	);
 };

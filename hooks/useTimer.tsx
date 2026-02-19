@@ -34,11 +34,11 @@ export function useTimer(
 		if (timerRef.current) {
 			clearInterval(timerRef.current);
 			timerRef.current = null;
-			elapsedRef.current = 0;
-			startRef.current = null;
-			setTimeLeft(duration);
-			setStatus("stopped");
 		}
+		elapsedRef.current = 0;
+		startRef.current = null;
+		setTimeLeft(duration);
+		setStatus("stopped");
 	}, [duration]);
 
 	const update = useCallback(() => {
@@ -83,9 +83,11 @@ export function useTimer(
 		return clearTimer;
 	}, [clearTimer]);
 
+	const resolvedTimeLeft = status === "stopped" ? duration : timeLeft;
+
 	return {
-		timeLeft,
-		percentage: timeLeft / duration,
+		timeLeft: resolvedTimeLeft,
+		percentage: resolvedTimeLeft / duration,
 		status,
 		start,
 		pause,
