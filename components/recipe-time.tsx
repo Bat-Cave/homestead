@@ -216,7 +216,7 @@ export const RecipeTime = ({
 											>
 												<RecipeTimeRange
 													range={range}
-													sliderValue={sliderValue}
+													initialValue={initialTime}
 													setSliderValue={setSliderValue}
 													setInternalTime={setInternalTime}
 													setCompleted={setCompleted}
@@ -267,13 +267,13 @@ export const RecipeTime = ({
 
 export const RecipeTimeRange = ({
 	range,
-	sliderValue,
+	initialValue,
 	setSliderValue,
 	setInternalTime,
 	setCompleted,
 }: {
 	range: [number, number];
-	sliderValue: number;
+	initialValue: number;
 	setSliderValue: (value: number) => void;
 	setInternalTime: (value: number) => void;
 	setCompleted: (value: boolean) => void;
@@ -285,7 +285,7 @@ export const RecipeTimeRange = ({
 				<p className="text-2xl font-bold">{formatSeconds(range[1] * 60)}</p>
 			</div>
 			<Slider
-				value={[sliderValue]}
+				defaultValue={[initialValue]}
 				onValueChange={(value) => {
 					setSliderValue(value[0]);
 					setCompleted(false);
@@ -295,7 +295,7 @@ export const RecipeTimeRange = ({
 				}}
 				min={range[0]}
 				max={range[1]}
-				step={1}
+				step={0.5}
 				className="w-full mb-8"
 			/>
 		</div>
