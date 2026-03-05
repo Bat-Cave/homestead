@@ -64,4 +64,12 @@ export const gardenUpdateFiles: GardenUpdateFile[] = [
 		timestamp: "2026-02-17T10:28:00",
 		playbackId: "dp2NW1QSPcMU00i6yoJidaU25MyQQ011cfAl1Ai2dijKU",
 	},
+	{
+		timestamp: "2026-02-27T13:18:00",
+		playbackId: "3o6qA3xF01hD2NaPcRjQ89QKJoG9pXycMUQ1RFL6xnMI",
+	},
+	{
+		timestamp: "2026-03-01T17:35:00",
+		playbackId: "mbYUTSFT8QrLVSPwcyfii75AEx7E4433TwEiBVG00reo",
+	},
 ];
