@@ -1,6 +1,7 @@
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Footer from "../components/footer";
 import { Navbar } from "../components/nav";
 import "./globals.css";
@@ -156,7 +157,9 @@ export default function RootLayout({
 									id="main"
 									className="min-w-0 min-h-lvh flex flex-col px-2 md:px-0 mx-2 lg:mx-auto pt-12 overflow-x-hidden scrollbar-hidden"
 								>
-									<Navbar />
+									<Suspense>
+										<Navbar />
+									</Suspense>
 									{children}
 								</main>
 								<Footer />

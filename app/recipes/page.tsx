@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import SearchRecipes from "./search-recipes";
 import { getRecipes } from "./utils";
 
@@ -40,7 +41,9 @@ export default function Home() {
 					prioritize using the cookbook over this website.
 				</Link>
 			</p>
-			<SearchRecipes recipes={getRecipes()} />
+			<Suspense>
+				<SearchRecipes recipes={getRecipes()} />
+			</Suspense>
 		</section>
 	);
 }

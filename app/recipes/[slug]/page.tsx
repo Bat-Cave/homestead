@@ -24,15 +24,10 @@ export async function generateStaticParams() {
 
 export default async function RecipePage({
 	params,
-	searchParams,
 }: {
 	params: Promise<{ slug: string }>;
-	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	const { slug } = await params;
-	const searchParamsObject = await searchParams;
-	const search = searchParamsObject?.search as string | undefined;
-	const hasSearch = (search?.length ?? 0) > 0;
 	const recipe = getRecipeBySlug(slug);
 
 	if (!recipe) {
@@ -41,10 +36,7 @@ export default async function RecipePage({
 
 	return (
 		<main className="max-w-xl mx-auto w-full">
-			<Link
-				href={hasSearch ? `/recipes?search=${search}` : `/recipes`}
-				className="flex items-center gap-2 hover:underline"
-			>
+			<Link href="/recipes" className="flex items-center gap-2 hover:underline">
 				<ArrowLeft aria-hidden="true" />
 				<span>
 					Back to{" "}
