@@ -3,8 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Ingredients } from "@/components/ingredients";
 import { RecipeListItem } from "@/components/recipe-list-item";
-import { getRecipeBySlug, getRecipes } from "../../utils";
-import { CategorySlug, categories } from "../categories";
+
+import { getRecipeBySlug, getRecipes } from "../utils";
 
 export const metadata = {
 	robots: {
@@ -18,23 +18,22 @@ export const metadata = {
 export async function generateStaticParams() {
 	const allRecipes = getRecipes();
 	return allRecipes.map((recipe) => ({
-		category: recipe.category,
 		slug: recipe.slug,
 	}));
 }
 
 export default async function RecipePage({
 	params,
+	searchParams,
 }: {
-	params: Promise<{ category: CategorySlug; slug: string }>;
+	params: Promise<{ slug: string }>;
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	const { category, slug } = await params;
+	const { slug } = await params;
+	const searchParamsObject = await searchParams;
+	const search = searchParamsObject?.search as string | undefined;
+	const hasSearch = (search?.length ?? 0) > 0;
 	const recipe = getRecipeBySlug(slug);
-
-	const validCategory = categories.find((c) => c.slug === category);
-	if (!validCategory) {
-		return notFound();
-	}
 
 	if (!recipe) {
 		return notFound();
@@ -43,14 +42,14 @@ export default async function RecipePage({
 	return (
 		<main className="max-w-xl mx-auto w-full">
 			<Link
-				href={`/recipes/${category}`}
+				href={hasSearch ? `/recipes?search=${search}` : `/recipes`}
 				className="flex items-center gap-2 hover:underline"
 			>
 				<ArrowLeft aria-hidden="true" />
 				<span>
 					Back to{" "}
 					<span className="font-semibold text-violet-800 dark:text-violet-400">
-						{validCategory.name}
+						All Recipes
 					</span>
 				</span>
 			</Link>

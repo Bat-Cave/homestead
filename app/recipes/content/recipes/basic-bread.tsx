@@ -40,7 +40,7 @@ export const recipe: Recipe = {
 	prepTime: 20,
 	cookTime: "100-145",
 	steps: [
-		<>
+		<span key="combine-ingredients">
 			Combine <strong>first 5 ingredients</strong> and{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -50,8 +50,8 @@ export const recipe: Recipe = {
 				ingredients={ingredients}
 			/>{" "}
 			into a mixing bowl and spin breifly.
-		</>,
-		<>
+		</span>,
+		<span key="let-sit">
 			Let sit for{" "}
 			<RecipeTime
 				time={10}
@@ -59,8 +59,8 @@ export const recipe: Recipe = {
 				range={undefined}
 			/>
 			.
-		</>,
-		<>
+		</span>,
+		<span key="start-mixing">
 			Start mixing again while adding the remaining flour,{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -71,9 +71,9 @@ export const recipe: Recipe = {
 				ingredients={ingredients}
 			/>{" "}
 			at a time.
-		</>,
+		</span>,
 		"Continue adding flour until you can see the sides pull clean, as well as the dough coming clean from the bottom of the bowl.",
-		<>
+		<span key="dough-consistency">
 			The dough should be very sticky and does not come together at this point,
 			but the bowl is clean.
 			<Collapsible key="collapsible-7">
@@ -86,8 +86,8 @@ export const recipe: Recipe = {
 					<Video playbackId="WTLiiYpW5ZIrI100t01h2ktmDVBNJCejzv7a202VYneugs" />
 				</CollapsibleContent>
 			</Collapsible>
-		</>,
-		<>
+		</span>,
+		<span key="knead-dough">
 			Knead the dough for{" "}
 			<RecipeTime
 				step={{
@@ -99,8 +99,8 @@ export const recipe: Recipe = {
 			/>{" "}
 			or until the gluten has been developed. If the dough starts sticking,
 			simply add a little white flour to take up the moisture.
-		</>,
-		<>
+		</span>,
+		<span key="cover-mixer">
 			Cover the mixer with a towel and let the dough rise for{" "}
 			<RecipeTime
 				time={undefined}
@@ -111,9 +111,9 @@ export const recipe: Recipe = {
 				range={[20, 30]}
 			/>{" "}
 			in mixer.
-		</>,
+		</span>,
 		"Uncover dough, oil hands and counter, and remove dough from the mixer.",
-		<>
+		<span key="divide-into-loaves">
 			Divide into{" "}
 			<ReactiveServings
 				slug={slug}
@@ -121,15 +121,15 @@ export const recipe: Recipe = {
 				servingUnits={servingUnits}
 			/>
 			.
-		</>,
-		<>
+		</span>,
+		<span key="shape-loaves">
 			Shape loaves and place in well-greased/sprayed pans.{" "}
 			<em>
 				(If using oil, use your finger to spread a thin layer of oil on the
 				walls and bottom of the pan.)
 			</em>
-		</>,
-		<>
+		</span>,
+		<span key="cover-with-towel">
 			Cover with a dry towel and let rise until dough has risen double or
 			approximately 2 inches above the pan. (
 			<RecipeTime
@@ -141,8 +141,8 @@ export const recipe: Recipe = {
 				range={[30, 60]}
 			/>
 			)
-		</>,
-		<>
+		</span>,
+		<span key="bake-in-oven">
 			Bake in preheated oven at <RecipeTemperature temperature={325} /> for{" "}
 			<RecipeTime
 				time={undefined}
@@ -153,7 +153,7 @@ export const recipe: Recipe = {
 				range={[30, 35]}
 			/>
 			.
-		</>,
+		</span>,
 		"Cool on cooling racks.",
 		"Butter tops while still warm.",
 	],

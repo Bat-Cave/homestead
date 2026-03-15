@@ -1,14 +1,15 @@
 "use client";
 
 import {
-	LazyMotion,
 	domAnimation,
+	LazyMotion,
 	m,
 	useScroll,
 	useSpring,
 	useTransform,
 } from "motion/react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
@@ -46,6 +47,10 @@ export function Navbar() {
 		["blur(0)", "blur(4px)"],
 	);
 
+	const searchParams = useSearchParams();
+	const search = searchParams.get("search");
+	const hasSearch = (search?.length ?? 0) > 0;
+
 	return (
 		<LazyMotion features={domAnimation}>
 			<m.aside
@@ -69,7 +74,11 @@ export function Navbar() {
 									return (
 										<Link
 											key={path}
-											href={path}
+											href={
+												hasSearch && path === "/recipes"
+													? `${path}?search=${search}`
+													: path
+											}
 											className={cn(
 												"transition-all text-sm md:text-base hover:text-neutral-800 dark:hover:text-neutral-200 hover:underline flex align-middle relative py-1 px-2 m-1",
 												hideOnMobile && "hidden md:block",

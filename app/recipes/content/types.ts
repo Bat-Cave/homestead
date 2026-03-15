@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { CategorySlug } from "../[category]/categories";
+import type { CategorySlug } from "../categories";
 
 export type Ingredient = {
 	name: string;

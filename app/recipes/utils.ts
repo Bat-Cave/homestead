@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { CategorySlug } from "./[category]/categories";
+import { CategorySlug } from "./categories";
 import { allRecipes } from "./content/recipes";
 import type { Recipe } from "./content/types";
 

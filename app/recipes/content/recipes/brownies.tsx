@@ -33,11 +33,11 @@ export const recipe: Recipe = {
 	prepTime: 15,
 	cookTime: "25-30",
 	steps: [
-		<>
+		<span key="preheat-oven">
 			Preheat oven to <RecipeTemperature temperature={350} />. Line a metal
 			8-inch square pan with parchment paper.
-		</>,
-		<>
+		</span>,
+		<span key="combine-ingredients">
 			In a large microwave-safe bowl, combine{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -52,8 +52,8 @@ export const recipe: Recipe = {
 				servings={servings}
 				ingredients={ingredients}
 			/>{" "}
-			. Microwave in 30-second bursts, stirring between each burst, until
-			melted and smooth. Add{" "}
+			. Microwave in 30-second bursts, stirring between each burst, until melted
+			and smooth. Add{" "}
 			<ReactiveIngredient
 				slug={slug}
 				ingredientIndex={2}
@@ -62,8 +62,8 @@ export const recipe: Recipe = {
 			/>{" "}
 			to the hot butter mixture and whisk vigorously until combined. Allow to
 			cool until just barely warm.
-		</>,
-		<>
+		</span>,
+		<span key="add-eggs-and-vanilla">
 			Add{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -91,8 +91,8 @@ export const recipe: Recipe = {
 				step={{ number: "3", name: "Whisk eggs and vanilla for 1 minute." }}
 			/>{" "}
 			until very well combined.
-		</>,
-		<>
+		</span>,
+		<span key="stir-in-other-ingredients">
 			Use a rubber spatula to stir in{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -122,8 +122,8 @@ export const recipe: Recipe = {
 				ingredients={ingredients}
 			/>
 			.
-		</>,
-		<>
+		</span>,
+		<span key="pour-into-pan">
 			Pour into the prepared pan and smooth out. Bake for{" "}
 			<RecipeTime
 				time={undefined}
@@ -131,14 +131,14 @@ export const recipe: Recipe = {
 				range={[25, 30]}
 			/>{" "}
 			until a toothpick in the center comes out with moist crumbs.
-		</>,
-		<>
+		</span>,
+		<span key="cool-in-pan">
 			Let cool in pan for{" "}
 			<RecipeTime
 				time={30}
 				step={{ number: "6", name: "Cool in pan for 30 minutes." }}
 			/>{" "}
 			before slicing.
-		</>,
+		</span>,
 	],
 };

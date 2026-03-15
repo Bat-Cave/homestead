@@ -154,12 +154,12 @@ export default function RootLayout({
 							<div className="relative z-10 w-full">
 								<main
 									id="main"
-									className="min-w-0 min-h-lvh flex flex-col px-2 md:px-0 mx-2 lg:mx-auto pt-12"
+									className="min-w-0 min-h-lvh flex flex-col px-2 md:px-0 mx-2 lg:mx-auto pt-12 overflow-x-hidden scrollbar-hidden"
 								>
 									<Navbar />
 									{children}
-									<Footer />
 								</main>
+								<Footer />
 							</div>
 						</GradientBackground>
 					</div>

@@ -39,10 +39,11 @@ export const recipe: Recipe = {
 	prepTime: 10,
 	cookTime: "12",
 	steps: [
-		<>
+		<span key="make-honey-soy-sauce">
 			Make{" "}
-			<Link href="/recipes/drinks-sauces/honey-soy-sauce">Honey Soy Sauce</Link>.
-		</>,
+			<Link href="/recipes/drinks-sauces/honey-soy-sauce">Honey Soy Sauce</Link>
+			.
+		</span>,
 		"Lightly salt and pepper the chicken strips.",
 		"Heat oil in a large skillet over medium heat. Add chicken and brown about 1 minute per side. Pour in the sauce and stir to combine. Simmer uncovered until the sauce thickens and chicken is cooked through, 8–10 minutes.",
 		"Serve over rice. Top with sesame seeds and sliced green onion if desired.",

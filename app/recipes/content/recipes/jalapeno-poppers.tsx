@@ -29,16 +29,16 @@ export const recipe: Recipe = {
 	steps: [
 		"Mix sausage, cream cheese, and cheeses together in a bowl to make filling.",
 		"Spoon filling into jalapeno halves.",
-		<>
+		<span key="heat-oven">
 			Peheat oven to <RecipeTemperature temperature={375} />.
-		</>,
-		<>
+		</span>,
+		<span key="bake-time">
 			Bake for{" "}
 			<RecipeTime
 				time={40}
 				step={{ number: "4", name: "Bake for 40 minutes" }}
 			/>
 			.
-		</>,
+		</span>,
 	],
 };

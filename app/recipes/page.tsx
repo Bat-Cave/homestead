@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { categories } from "./[category]/categories";
-import { formatDate, getRecipes } from "./utils";
+import SearchRecipes from "./search-recipes";
+import { getRecipes } from "./utils";
 
 export const metadata = {
 	robots: {
@@ -12,13 +12,6 @@ export const metadata = {
 };
 
 export default function Home() {
-	const latestRecipes = [...getRecipes()]
-		.sort(
-			(a, b) =>
-				new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
-		)
-		.slice(0, 3);
-
 	return (
 		<section className="max-w-xl mx-auto w-full">
 			<Link href="/" className="flex items-center gap-2 hover:underline">
@@ -33,7 +26,8 @@ export default function Home() {
 			<h1 className="title font-semibold text-2xl tracking-tighter mt-4 mb-8">
 				My Favorite Recipes
 			</h1>
-			<p>
+
+			<p className="mb-4">
 				This website contains recipes from many sources, but the majority are
 				from a cookbook I recieved from my mom as a gift. My goal is not to
 				replace the cookbook, rather to have a place to share and make recipe
@@ -46,39 +40,7 @@ export default function Home() {
 					prioritize using the cookbook over this website.
 				</Link>
 			</p>
-			<section className="mt-10">
-				<h2 className="text-2xl font-semibold tracking-tight mb-4">
-					Latest recipes
-				</h2>
-				<ul className="space-y-3">
-					{latestRecipes.map((recipe) => (
-						<li key={recipe.slug} className="flex items-center">
-							<Link
-								href={`/recipes/${recipe.category}/${recipe.slug}`}
-								className="group inline-flex items-center gap-1"
-							>
-								<span className="text-lg font-medium group-hover:underline">
-									{recipe.title}
-								</span>
-								<span className="text-sm text-neutral-700 dark:text-neutral-300">
-									{" • "}
-									{categories.find((c) => c.slug === recipe.category)?.name}
-									{" • "}
-									{formatDate(recipe.publishedAt)}
-								</span>
-							</Link>
-						</li>
-					))}
-				</ul>
-			</section>
-			<div className="mt-8 flex flex-wrap gap-3">
-				<Link href="/recipes/categories" className="btn btn-solid">
-					View Recipes by Category
-				</Link>
-				<Link href="/recipes/all" className="btn btn-solid-secondary">
-					View All Recipes
-				</Link>
-			</div>
+			<SearchRecipes recipes={getRecipes()} />
 		</section>
 	);
 }

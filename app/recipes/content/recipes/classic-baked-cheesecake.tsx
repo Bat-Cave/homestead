@@ -17,7 +17,11 @@ const ingredients: Recipe["ingredients"] = [
 	{ name: "sour cream, room temperature", quantity: 0.6667, unit: "cup" },
 	{ name: "vanilla extract", quantity: 1.5, unit: "tsp" },
 	{ name: "fine sea salt", quantity: 0.125, unit: "tsp" },
-	{ name: "large eggs, room temperature, lightly beaten", quantity: 4, unit: "" },
+	{
+		name: "large eggs, room temperature, lightly beaten",
+		quantity: 4,
+		unit: "",
+	},
 ];
 
 export const recipe: Recipe = {
@@ -33,10 +37,10 @@ export const recipe: Recipe = {
 	prepTime: 20,
 	cookTime: "75",
 	steps: [
-		<>
+		<span key="preheat-oven">
 			Preheat oven to <RecipeTemperature temperature={325} />.
-		</>,
-		<>
+		</span>,
+		<span key="prepare-crust">
 			Prepare the crust by combining{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -67,8 +71,8 @@ export const recipe: Recipe = {
 			/>
 			, then use a fork to combine well. Press evenly into the bottom and
 			slightly up the sides of a 9-inch springform pan. Set aside.
-		</>,
-		<>
+		</span>,
+		<span key="mix-filling">
 			In the bowl of a stand mixer (or with an electric mixer), stir{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -106,8 +110,8 @@ export const recipe: Recipe = {
 				ingredients={ingredients}
 			/>
 			. Stir on low speed until fully combined.
-		</>,
-		<>
+		</span>,
+		<span key="add-vanilla">
 			Add{" "}
 			<ReactiveIngredient
 				slug={slug}
@@ -115,10 +119,10 @@ export const recipe: Recipe = {
 				servings={servings}
 				ingredients={ingredients}
 			/>{" "}
-			and stir on low speed until just combined. Scrape sides and bottom of
-			bowl to ensure batter is uniform.
-		</>,
-		<>
+			and stir on low speed until just combined. Scrape sides and bottom of bowl
+			to ensure batter is uniform.
+		</span>,
+		<span key="pour-batter">
 			Pour cheesecake batter into prepared springform pan and place on the
 			center rack of the oven. To help prevent leaks, place the springform pan
 			on a foil-lined cookie sheet. Bake for{" "}
@@ -128,31 +132,34 @@ export const recipe: Recipe = {
 				range={[50, 60]}
 			/>{" "}
 			until center is mostly set but still slightly jiggly.
-		</>,
-		<>
+		</span>,
+		<span key="cool-on-top-of-oven">
 			Remove cheesecake from oven and let cool on top of the oven for{" "}
 			<RecipeTime
 				time={10}
 				step={{ number: "6", name: "Cool on top of oven for 10 minutes." }}
 			/>
 			, then run a knife around the edge to loosen from the pan.
-		</>,
-		<>
+		</span>,
+		<span key="cool-at-room-temperature">
 			Let cheesecake cool at room temperature for{" "}
 			<RecipeTime
 				time={undefined}
-				step={{ number: "7", name: "Cool at room temperature for 1 to 2 hours." }}
+				step={{
+					number: "7",
+					name: "Cool at room temperature for 1 to 2 hours.",
+				}}
 				range={[60, 120]}
 			/>{" "}
 			before transferring to refrigerator.
-		</>,
-		<>
+		</span>,
+		<span key="refrigerate">
 			Chill in refrigerator for at least{" "}
 			<RecipeTime
 				time={360}
 				step={{ number: "8", name: "Refrigerate for at least 6 hours." }}
 			/>{" "}
 			or overnight before slicing and serving.
-		</>,
+		</span>,
 	],
 };

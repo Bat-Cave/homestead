@@ -446,6 +446,16 @@ table {
 	animation: slideUp 300ms ease-out;
 }
 
+.scrollbar-hidden::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hidden {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
 html > body[data-scroll-locked] {
 	overflow: visible !important;
 }
