@@ -25,6 +25,7 @@ const ingredients = [
 	{ name: "salt", quantity: 2, unit: "tbsp" as const },
 	{ name: "instant yeast", quantity: 3, unit: "tbsp" as const },
 	{ name: "white flour", quantity: 8, unit: "cup" as const },
+	{ name: "additional flour", quantity: 1, unit: "as needed" as const },
 ];
 
 export const recipe: Recipe = {
