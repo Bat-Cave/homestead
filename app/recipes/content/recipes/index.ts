@@ -11,6 +11,7 @@ import { recipe as honeySoySauce } from "./honey-soy-sauce";
 import { recipe as jalapenoPoppers } from "./jalapeno-poppers";
 import { recipe as khorasanWhiteLoaf } from "./khorasan-white-loaf";
 import { recipe as koreanGroundBeefRiceBowls } from "./korean-ground-beef-rice-bowls";
+import { recipe as marryMeWhiteBeanSkillet } from "./marry-me-white-bean-skillet";
 import { recipe as salsa } from "./salsa";
 import { recipe as slowCookerTexasPulledPork } from "./slow-cooker-texas-pulled-pork";
 import { recipe as stirFrySauce } from "./stir-fry-sauce";
@@ -31,6 +32,7 @@ export const allRecipes: Recipe[] = [
 	stirFrySauce,
 	khorasanWhiteLoaf,
 	koreanGroundBeefRiceBowls,
+	marryMeWhiteBeanSkillet,
 	slowCookerTexasPulledPork,
 	strawberryCakeFilling,
 ];
