@@ -1,18 +1,66 @@
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Ingredients } from "@/components/ingredients";
 import { RecipeListItem } from "@/components/recipe-list-item";
-
+import { categories } from "../categories";
 import { getRecipeBySlug, getRecipes } from "../utils";
 
-export const metadata = {
-	robots: {
-		index: false,
-		follow: false,
-		nocache: true,
-	},
-};
+function getRecipeDescription(
+	recipe: NonNullable<ReturnType<typeof getRecipeBySlug>>,
+) {
+	const category =
+		categories.find((entry) => entry.slug === recipe.category)?.name ??
+		"Recipe";
+	const servingLabel =
+		recipe.servings === 1
+			? recipe.servingUnits[0]
+			: recipe.servingUnits[1];
+	const timing = [recipe.prepTime, recipe.cookTime]
+		.filter(Boolean)
+		.map((time) => `${time} min`)
+		.join(", ");
+
+	return `${category} recipe serving ${recipe.servings} ${servingLabel}${timing ? `. ${timing}.` : "."}`;
+}
+
+export async function generateMetadata({
+	params,
+}: {
+	params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+	const { slug } = await params;
+	const recipe = getRecipeBySlug(slug);
+
+	if (!recipe) {
+		return {
+			title: "Recipe Not Found",
+		};
+	}
+
+	const description = getRecipeDescription(recipe);
+
+	return {
+		title: recipe.title,
+		description,
+		openGraph: {
+			title: recipe.title,
+			description,
+			type: "article",
+		},
+		twitter: {
+			card: "summary",
+			title: recipe.title,
+			description,
+		},
+		robots: {
+			index: false,
+			follow: false,
+			nocache: true,
+		},
+	};
+}
 
 // Generate static params at build time for all recipe pages
 export async function generateStaticParams() {

@@ -1,10 +1,19 @@
 import { ArrowLeft } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import SearchRecipes from "./search-recipes";
 import { getRecipes } from "./utils";
 
-export const metadata = {
+export const metadata: Metadata = {
+	title: "Recipes",
+	description:
+		"Favorite homestead recipes from many sources, with serving adjustments and revisions.",
+	openGraph: {
+		title: "Recipes",
+		description:
+			"Favorite homestead recipes from many sources, with serving adjustments and revisions.",
+	},
 	robots: {
 		index: false,
 		follow: false,

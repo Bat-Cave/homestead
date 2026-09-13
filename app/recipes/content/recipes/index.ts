@@ -16,6 +16,7 @@ import { recipe as salsa } from "./salsa";
 import { recipe as slowCookerTexasPulledPork } from "./slow-cooker-texas-pulled-pork";
 import { recipe as stirFrySauce } from "./stir-fry-sauce";
 import { recipe as strawberryCakeFilling } from "./strawberry-cake-filling";
+import { recipe as sweetSouthernCornbread } from "./sweet-southern-cornbread";
 
 export const allRecipes: Recipe[] = [
 	basicBread,
@@ -35,4 +36,5 @@ export const allRecipes: Recipe[] = [
 	marryMeWhiteBeanSkillet,
 	slowCookerTexasPulledPork,
 	strawberryCakeFilling,
+	sweetSouthernCornbread,
 ];

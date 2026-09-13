@@ -9,8 +9,18 @@ import GradientBackground from "../components/gradient-background";
 import { cn } from "../lib/utils";
 import { Providers } from "./providers";
 
+const siteUrl =
+	process.env.NEXT_PUBLIC_SITE_URL ??
+	(process.env.VERCEL_URL
+		? `https://${process.env.VERCEL_URL}`
+		: "http://localhost:3000");
+
 export const metadata: Metadata = {
-	title: "Homestead | Rico Hancock",
+	metadataBase: new URL(siteUrl),
+	title: {
+		default: "Homestead | Rico Hancock",
+		template: "%s | Homestead",
+	},
 	description:
 		"I've been doing a lot of homesteading stuff lately. From working out in the garden to learning new recipes, there are things I'm learning that I want to keep somewhere I can easily access and update as I go. This is that place. If you've found it, I hope you find it as useful as I do.",
 	icons: {
@@ -31,7 +41,7 @@ export const metadata: Metadata = {
 		title: "Homestead | Rico Hancock",
 		description:
 			"I've been doing a lot of homesteading stuff lately. From working out in the garden to learning new recipes, there are things I'm learning that I want to keep somewhere I can easily access and update as I go. This is that place. If you've found it, I hope you find it as useful as I do.",
-		siteName: "Homestead | Rico Hancock",
+		siteName: "Homestead",
 		locale: "en_US",
 		type: "website",
 	},
