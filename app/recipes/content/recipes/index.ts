@@ -13,6 +13,7 @@ import { recipe as khorasanWhiteLoaf } from "./khorasan-white-loaf";
 import { recipe as koreanGroundBeefRiceBowls } from "./korean-ground-beef-rice-bowls";
 import { recipe as marryMeWhiteBeanSkillet } from "./marry-me-white-bean-skillet";
 import { recipe as salsa } from "./salsa";
+import { recipe as slowCookerChickenTikkaMasala } from "./slow-cooker-chicken-tikka-masala";
 import { recipe as slowCookerTexasPulledPork } from "./slow-cooker-texas-pulled-pork";
 import { recipe as stirFrySauce } from "./stir-fry-sauce";
 import { recipe as strawberryCakeFilling } from "./strawberry-cake-filling";
@@ -34,6 +35,7 @@ export const allRecipes: Recipe[] = [
 	khorasanWhiteLoaf,
 	koreanGroundBeefRiceBowls,
 	marryMeWhiteBeanSkillet,
+	slowCookerChickenTikkaMasala,
 	slowCookerTexasPulledPork,
 	strawberryCakeFilling,
 	sweetSouthernCornbread,
