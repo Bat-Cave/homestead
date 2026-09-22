@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RecipeTime } from "@/components/recipe-time";
 import type { Recipe } from "../types";
 
@@ -6,6 +7,7 @@ const servings = 4;
 const servingUnits: [string, string] = ["serving", "servings"];
 
 const ingredients: Recipe["ingredients"] = [
+	{ name: "potato", quantity: 1, unit: "whole" },
 	{
 		name: "oil from sun-dried tomatoes",
 		quantity: 1,
@@ -33,16 +35,6 @@ const ingredients: Recipe["ingredients"] = [
 	{ name: "heavy cream", quantity: 0.25, unit: "cup" },
 	{ name: "Parmesan cheese, grated", quantity: 0.25, unit: "cup" },
 	{ name: "fresh basil, julienned", quantity: 2, unit: "tbsp" },
-	{
-		name: "boiled potatoes, cut into ~1-inch chunks (optional, 600–800g)",
-		quantity: 700,
-		unit: "g",
-	},
-	{
-		name: "extra vegetable broth (optional, if using potatoes)",
-		quantity: 0.375,
-		unit: "cup",
-	},
 ];
 
 export const recipe: Recipe = {
@@ -55,10 +47,10 @@ export const recipe: Recipe = {
 	servings,
 	servingUnits,
 	ingredients,
-	prepTime: 5,
-	cookTime: "20",
+	prepTime: 10,
+	cookTime: "35",
 	steps: [
-		"Gather and prep all ingredients. If using potatoes, boil them ahead of time and cut into ~1-inch chunks.",
+		"Peel the potato and cut it into ~3/4-inch cubes. Add to a pot of salted water, bring to a boil, and cook until tender when pierced with a fork, about 12–15 minutes. Drain and set aside.",
 		<span key="saute-aromatics">
 			In a medium skillet over medium heat, warm the sun-dried tomato oil. Add the
 			onion, garlic, and red pepper flakes. Sauté for{" "}
@@ -74,11 +66,7 @@ export const recipe: Recipe = {
 		</span>,
 		<span key="simmer-beans">
 			Add the white beans (with their liquid), broth, sun-dried tomatoes, salt,
-			and Italian seasoning. Optional: add the boiled potatoes with the
-			beans—they absorb the tomato/garlic/cream sauce, release a little starch
-			to thicken it, and make the dish substantially more filling. If the
-			skillet gets too thick during the simmer, add an extra ¼–½ cup broth.
-			Stir well and simmer for about{" "}
+			Italian seasoning, and boiled potatoes. Stir well and simmer for about{" "}
 			<RecipeTime
 				time={15}
 				step={{
@@ -101,6 +89,12 @@ export const recipe: Recipe = {
 			until creamy and heated through. Avoid boiling after adding the cream—it
 			can cause the sauce to separate.
 		</span>,
-		"Spoon into bowls and serve warm with crusty bread or over rice.",
+		<span key="serve">
+			Spoon into bowls and serve warm. Goes great with{" "}
+			<Link href="/recipes/breads/sweet-southern-cornbread">
+				Sweet Southern Cornbread
+			</Link>
+			.
+		</span>,
 	],
 };

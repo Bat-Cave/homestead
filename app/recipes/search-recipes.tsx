@@ -136,6 +136,7 @@ export default function SearchRecipes({ recipes }: { recipes: Recipe[] }) {
 					))}
 				</div>
 				<motion.div
+					initial={false}
 					animate={{ height: bounds.height ?? "auto" }}
 					transition={{ type: "spring", bounce: 0, duration: 0.9 }}
 				>
