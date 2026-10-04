@@ -24,13 +24,18 @@ const ingredients: Recipe["ingredients"] = [
 	{ name: "water", quantity: 1, unit: "cup" },
 	{ name: "chili powder", quantity: 1, unit: "tbsp" },
 	{ name: "salt", quantity: 1, unit: "tsp" },
-	{ name: "yellow cornmeal", quantity: 0.667, unit: "cup" },
-	{ name: "all-purpose flour", quantity: 1, unit: "cup" },
-	{ name: "granulated sugar", quantity: 0.25, unit: "cup" },
-	{ name: "baking powder", quantity: 1, unit: "tbsp" },
-	{ name: "kosher salt (for cornbread)", quantity: 0.5, unit: "tsp" },
+	{ name: "cornmeal", quantity: 0.75, unit: "cup" },
+	{ name: "all-purpose flour", quantity: 1, unit: "tbsp" },
+	{ name: "baking powder", quantity: 1.5, unit: "tsp" },
+	{ name: "kosher salt (for cornbread topping)", quantity: 0.5, unit: "tsp" },
 	{ name: "large egg", quantity: 1, unit: "" },
-	{ name: "milk", quantity: 0.333, unit: "cup" },
+	{ name: "milk", quantity: 0.5, unit: "cup" },
+	{ name: "canola oil", quantity: 1, unit: "tbsp" },
+	{
+		name: "granulated sugar (optional, for a slightly sweet crust)",
+		quantity: 1,
+		unit: "tsp",
+	},
 ];
 
 export const recipe: Recipe = {
@@ -86,7 +91,7 @@ export const recipe: Recipe = {
 			, stirring regularly, until the mixture is thick and glossy.
 		</span>,
 		"Spread the beef mixture in an even layer in the prepared baking dish.",
-		"In a medium bowl, whisk together the cornmeal, flour, sugar, baking powder, and kosher salt. Add the egg and milk and stir until just combined—do not overmix.",
+		"In a medium bowl, stir together the cornmeal, flour, baking powder, salt, egg, milk, canola oil, and sugar (if using) until just combined. Keep the batter thin—it settles into the filling as it bakes.",
 		"Spoon the cornbread batter over the beef mixture and spread it to the edges of the dish.",
 		<span key="bake-casserole">
 			Bake at <RecipeTemperature temperature={425} /> for{" "}
