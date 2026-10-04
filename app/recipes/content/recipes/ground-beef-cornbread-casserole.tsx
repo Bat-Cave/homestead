@@ -64,7 +64,7 @@ export const recipe: Recipe = {
 			/>
 			. Add the garlic and cook{" "}
 			<RecipeTime
-				time={30}
+				time={0.5}
 				step={{
 					number: "2",
 					name: "Cook garlic until fragrant.",
