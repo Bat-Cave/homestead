@@ -6,6 +6,7 @@ import { recipe as buttermilkPancakes } from "./buttermilk-pancakes";
 import { recipe as classicBakedCheesecake } from "./classic-baked-cheesecake";
 import { recipe as homemadeChineseEggNoodles } from "./homemade-chinese-egg-noodles";
 import { recipe as coleslaw } from "./coleslaw";
+import { recipe as creamOfCarrotSoup } from "./cream-of-carrot-soup";
 import { recipe as groundBeefCornbreadCasserole } from "./ground-beef-cornbread-casserole";
 import { recipe as honeySoyChicken } from "./honey-soy-chicken";
 import { recipe as honeySoySauce } from "./honey-soy-sauce";
@@ -31,6 +32,7 @@ export const allRecipes: Recipe[] = [
 	honeySoySauce,
 	homemadeChineseEggNoodles,
 	coleslaw,
+	creamOfCarrotSoup,
 	groundBeefCornbreadCasserole,
 	stirFrySauce,
 	khorasanWhiteLoaf,
